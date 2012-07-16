@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DetectorDescription/Schema/DDLSchema.xsd">
+	<!-- defining some variables/constants which are used below: -->
+	<ConstantsSection label="mttalgo_1Layer.xml" eval="true">
+		<!-- (Full) Panel dimensions ("C" stands for "Central Wheel"): -->
+		<Constant name="dxPanel" value="2192.0*mm"/>
+		<Constant name="dxPanelC" value="2052.0*mm"/>
+		<Constant name="PanelThick" value="22.0*mm"/>
+		<Constant name="dzPanel" value="2536.0*mm"/>
+		<!-- (Full) Layer dimensions ("C" stands for "Central Wheel"): -->
+		<Constant name="dxLayer" value="2190.0*mm"/>
+		<Constant name="dxLayerC" value="2050.0*mm"/>
+		<Constant name="layerThick" value="20.0*mm"/>
+		<Constant name="dzLayer" value="2536.0*mm"/>
+		<!-- Number of Strips (per Layer) and their (full) dimensions ("C" stands for "Central Wheel"): -->
+		<Constant name="NumStrip" value="1"/>
+		<Constant name="NumStripC" value="1"/>
+		<Constant name="dxStrip" value="[dxTiles]"/>
+		<Constant name="dxStripC" value="[dxTilesC]"/>
+		<Constant name="stripThick" value="[tilesThick]"/>
+		<Constant name="dzStrip" value="[dzLayer]"/>
+		<!-- Offset of the outer Strips to the Layer edge ("C" stands for "Central Wheel"): -->
+		<Constant name="stripOffXPos" value="0*mm"/>
+		<Constant name="stripOffXPosC" value="0*mm"/>
+		<Constant name="stripOffXNeg" value="0*mm"/>
+		<Constant name="stripOffXNegC" value="0*mm"/>
+		<!-- Number of Tiles (per Strip) and their (full) dimensions ("C" stands for "Central Wheel"): -->
+		<Constant name="NumTiles" value="1"/>
+		<Constant name="dxTiles" value="[dxScnt]+2*[wrapThickX]"/>
+		<Constant name="dxTilesC" value="[dxScntC]+2*[wrapThickX]"/>
+		<Constant name="tilesThick" value="[scntThick]+2*[wrapThickY]"/>
+		<Constant name="dzTiles" value="[dzScnt]+2*[wrapThickZ]"/>
+		<!-- Offset of the outer Tiles to the Strip edge ("C" stands for "Central Wheel"): -->
+		<Constant name="tilesOffZPos" value="0*mm"/>
+		<Constant name="tilesOffZNeg" value="0*mm"/>
+		<!-- (Full) Scintillator dimensions ("C" stands for "Central Wheel"): -->
+		<Constant name="dxScnt" value="([dxLayer]-[stripOffXPos]-[stripOffXNeg]+[TileDistanceX])/[NumStrip]-2*[wrapThickX]-[TileDistanceX]"/>
+		<Constant name="dxScntC" value="([dxLayerC]-[stripOffXPosC]-[stripOffXNegC]+[TileDistanceXC])/[NumStripC]-2*[wrapThickX]-[TileDistanceXC]"/>
+		<Constant name="scntThick" value="10.0*mm"/>
+		<Constant name="dzScnt" value="([dzLayer]-[tilesOffZNeg]-[tilesOffZPos]+[TileDistanceZ])/[NumTiles]-2*[wrapThickZ]-[TileDistanceZ]"/>
+		<!-- Thickness of the Wraping layer: -->
+		<Constant name="wrapThickX" value="1.0*mm"/>
+		<Constant name="wrapThickY" value="1.0*mm"/>
+		<Constant name="wrapThickZ" value="1.0*mm"/>
+		<!-- Distances between the Tiles ("C" stands for "Central Wheel"): -->
+		<Constant name="TileDistanceX" value="0*mm"/>
+		<Constant name="TileDistanceXC" value="0*mm"/>
+		<Constant name="TileDistanceZ" value="0*mm"/>
+		<!-- Values for the positioning: -->
+		<Constant name="translX" value="[dxTiles]+[TileDistanceX]"/>
+		<Constant name="translXC" value="[dxTilesC]+[TileDistanceXC]"/>
+		<Constant name="translZ" value="[dzTiles]+[TileDistanceZ]"/>
+		<Constant name="xOff" value="-36.0674*cm"/>
+		<Constant name="yLayer1" value="4097*mm"/>
+	</ConstantsSection>
+	<!-- creating the solids: -->
+	<SolidSection label="mttalgo_1Layer.xml">
+		<Box name="Panel" dx="[dxPanel]/2" dy="[PanelThick]/2" dz="[dzPanel]/2"/>
+		<Box name="PanelC" dx="[dxPanelC]/2" dy="[PanelThick]/2" dz="[dzPanel]/2"/>
+		<Box name="StripLayer" dx="[dxLayer]/2" dy="[layerThick]/2" dz="[dzLayer]/2"/>
+		<Box name="StripLayerC" dx="[dxLayerC]/2" dy="[layerThick]/2" dz="[dzLayer]/2"/>
+		<Box name="MTTStrip" dx="[dxStrip]/2" dy="[stripThick]/2" dz="[dzStrip]/2"/>
+		<Box name="MTTStripC" dx="[dxStripC]/2" dy="[stripThick]/2" dz="[dzStrip]/2"/>
+		<Box name="Tile" dx="[dxTiles]/2" dy="[tilesThick]/2" dz="[dzTiles]/2"/>
+		<Box name="TileC" dx="[dxTilesC]/2" dy="[tilesThick]/2" dz="[dzTiles]/2"/>
+		<Box name="Scnt" dx="[dxScnt]/2" dy="[scntThick]/2" dz="[dzScnt]/2"/>
+		<Box name="ScntC" dx="[dxScntC]/2" dy="[scntThick]/2" dz="[dzScnt]/2"/>
+	</SolidSection>
+	<!-- creating the logical volumes (solids + materials): -->
+	<LogicalPartSection label="mttalgo_1Layer.xml">
+		<LogicalPart name="PanelC" category="unspecified">
+			<rSolid name="PanelC"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="Panel" category="unspecified">
+			<rSolid name="Panel"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="StripLayerC" category="unspecified">
+			<rSolid name="StripLayerC"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="StripLayer" category="unspecified">
+			<rSolid name="StripLayer"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="MTTStripC" category="unspecified">
+			<rSolid name="MTTStripC"/>
+			<rMaterial name="materials:Polystyrene"/>
+		</LogicalPart>
+		<LogicalPart name="MTTStrip" category="unspecified">
+			<rSolid name="MTTStrip"/>
+			<rMaterial name="materials:Polystyrene"/>
+		</LogicalPart>
+		<LogicalPart name="TileC" category="unspecified">
+			<rSolid name="TileC"/>
+			<rMaterial name="materials:Polyethylene"/>
+		</LogicalPart>
+		<LogicalPart name="Tile" category="unspecified">
+			<rSolid name="Tile"/>
+			<rMaterial name="materials:Polyethylene"/>
+		</LogicalPart>
+		<LogicalPart name="ScntC" category="unspecified">
+			<rSolid name="ScntC"/>
+			<rMaterial name="materials:Scintillator"/>
+		</LogicalPart>
+		<LogicalPart name="Scnt" category="unspecified">
+			<rSolid name="Scnt"/>
+			<rMaterial name="materials:Scintillator"/>
+		</LogicalPart>
+	</LogicalPartSection>
+	<!-- positioning the logical volumes: -->
+	<PosPartSection label="mttalgo_1Layer.xml">
+		<!-- just putting the child-volume into the parent-volume: -->
+		<!-- creating the Tile: -->
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo_1Layer:TileC"/>
+			<rChild name="mttalgo_1Layer:ScntC"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo_1Layer:Tile"/>
+			<rChild name="mttalgo_1Layer:Scnt"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<!-- adding the Layer to the Panel (at the moment, Panel and Layer are the same): -->
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo_1Layer:Panel"/>
+			<rChild name="mttalgo_1Layer:StripLayer"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo_1Layer:PanelC"/>
+			<rChild name="mttalgo_1Layer:StripLayerC"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<!-- more sophisticated way of adding the child-volume to the parent-volume (e.g. adding more than one copy): -->
+		<!-- adding the Tiles to the Strip: -->
+		<Algorithm name="global:DDLinear">
+			<rParent name="mttalgo_1Layer:MTTStripC"/>
+			<String name="ChildName" value="mttalgo_1Layer:TileC"/>
+			<Numeric name="N" value="[NumTiles]"/>
+			<Numeric name="StartCopyNo" value="1"/>
+			<Numeric name="IncrCopyNo" value="1"/>
+			<Numeric name="Theta" value="0*deg"/>
+			<Numeric name="Phi" value="0*deg"/>
+			<Vector name="Base" type="numeric" nEntries="3"> 0, 0, ([dzTiles]-[dzStrip])/2-[translZ]+[tilesOffZNeg] </Vector>
+			<Numeric name="Delta" value="[translZ]"/>
+		</Algorithm>
+		<Algorithm name="global:DDLinear">
+			<rParent name="mttalgo_1Layer:MTTStrip"/>
+			<String name="ChildName" value="mttalgo_1Layer:Tile"/>
+			<Numeric name="N" value="[NumTiles]"/>
+			<Numeric name="StartCopyNo" value="1"/>
+			<Numeric name="IncrCopyNo" value="1"/>
+			<Numeric name="Theta" value="0*deg"/>
+			<Numeric name="Phi" value="0*deg"/>
+			<Vector name="Base" type="numeric" nEntries="3"> 0, 0, ([dzTiles]-[dzStrip])/2-[translZ]+[tilesOffZNeg] </Vector>
+			<Numeric name="Delta" value="[translZ]"/>
+		</Algorithm>
+		<!-- adding the Strips to the Layer: -->
+		<Algorithm name="global:DDLinear">
+			<rParent name="mttalgo_1Layer:StripLayerC"/>
+			<String name="ChildName" value="mttalgo_1Layer:MTTStripC"/>
+			<Numeric name="N" value="[NumStripC]"/>
+			<Numeric name="StartCopyNo" value="1"/>
+			<Numeric name="IncrCopyNo" value="1"/>
+			<Numeric name="Theta" value="90*deg"/>
+			<Numeric name="Phi" value="0*deg"/>
+			<Vector name="Base" type="numeric" nEntries="3"> ([dxStripC]-[dxLayerC])/2-[translXC]+[stripOffXNegC], 0, 0 </Vector>
+			<Numeric name="Delta" value="[translXC]"/>
+		</Algorithm>
+		<Algorithm name="global:DDLinear">
+			<rParent name="mttalgo_1Layer:StripLayer"/>
+			<String name="ChildName" value="mttalgo_1Layer:MTTStrip"/>
+			<Numeric name="N" value="[NumStrip]"/>
+			<Numeric name="StartCopyNo" value="1"/>
+			<Numeric name="IncrCopyNo" value="1"/>
+			<Numeric name="Theta" value="90*deg"/>
+			<Numeric name="Phi" value="0*deg"/>
+			<Vector name="Base" type="numeric" nEntries="3"> ([dxStrip]-[dxLayer])/2-[translX]+[stripOffXNeg], 0, 0 </Vector>
+			<Numeric name="Delta" value="[translX]"/>
+		</Algorithm>
+		<!-- adding the Panels to the Wheels: -->
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_2N"/>
+			<String name="ChildName" value="Panel"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_1N"/>
+			<String name="ChildName" value="Panel"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_0"/>
+			<String name="ChildName" value="PanelC"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_1P"/>
+			<String name="ChildName" value="Panel"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_2P"/>
+			<String name="ChildName" value="Panel"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+	</PosPartSection>
+</DDDefinition>

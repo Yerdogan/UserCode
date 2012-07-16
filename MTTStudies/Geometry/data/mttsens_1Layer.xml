@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" 
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	      xsi:schemaLocation="http://www.cern.ch/cms/DDL 
+	      ../../../DetectorDescription/Schema/DDLSchema.xsd">
+	<SpecParSection label="mttsens_1Layer.xml" eval="true">
+		<SpecPar name="mtt">
+			<PartSelector path="//Scnt"/>
+			<PartSelector path="//ScntC"/>
+			<Parameter name="SensitiveDetector" value="MTTSensitiveDetector" 
+				   eval="false"/>
+			<Parameter name="ReadOutName" value="MTTHits" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct">
+			<PartSelector path="//Panel"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct1">
+			<PartSelector path="//PanelC"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct2">
+			<PartSelector path="//StripLayer"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct3">
+			<PartSelector path="//StripLayerC"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct4">
+			<PartSelector path="//MTTStrip"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct5">
+			<PartSelector path="//MTTStripC"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct6">
+			<PartSelector path="//Scnt"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct7">
+			<PartSelector path="//ScntC"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct8">
+			<PartSelector path="//Tile"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+		<SpecPar name="MTTStruct9">
+			<PartSelector path="//TileC"/>
+			<Parameter name="MTTStuff" value="MuBarrelMTT" eval="false"/>
+		</SpecPar>
+	</SpecParSection>
+</DDDefinition>

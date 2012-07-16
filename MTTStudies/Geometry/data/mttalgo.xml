@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DetectorDescription/Schema/DDLSchema.xsd">
+	<ConstantsSection label="mttalgo.xml" eval="true">
+		<Constant name="dxStation" value="1096.0*mm"/>
+		<Constant name="dxStationC" value="1026.0*mm"/>
+		<Constant name="StationThick" value="11.0*mm"/>
+		<Constant name="dzStation" value="1268.0*mm"/>
+		<Constant name="dxLayerC" value="1025.0*mm"/>
+		<Constant name="dxLayer" value="1095.0*mm"/>
+		<Constant name="layerThick" value="10.0*mm"/>
+		<Constant name="dzLayer" value="1268.0*mm"/>
+		<Constant name="dxStrip" value="60.0*mm"/>
+		<Constant name="stripThick" value="7.0*mm"/>
+		<Constant name="dzStrip" value="1268.0*mm"/>
+		<Constant name="dxScnt" value="50.0*mm"/>
+		<Constant name="scntThick" value="5.0*mm"/>
+		<Constant name="dzScnt" value="50.0*mm"/>
+		<Constant name="dxWrap" value="1.0*mm"/>
+		<Constant name="wrapThick" value="1.0*mm"/>
+		<Constant name="dzWrap" value="1.0*mm"/>
+		<Constant name="dxWrappedScnt" value="[dxScnt]+[dxWrap]"/>
+		<Constant name="wrappedScntThick" value="[scntThick]+[wrapThick]"/>
+		<Constant name="dzWrappedScnt" value="[dzScnt]+[dzWrap]"/>
+		<Constant name="dzModuletrans" value="1.76*mm"/>
+		<Constant name="deltaValue" value="(2*[dzWrappedScnt]+2*[dzModuletrans])"/>
+		<Constant name="xOff" value="-36.0674*cm"/>
+		<Constant name="yLayer1" value="4097*mm"/>
+	</ConstantsSection>
+	<SolidSection label="mttalgo.xml">
+		<Box name="StationC" dx="[dxStationC]" dy="[StationThick]" dz="[dzStation]"/>
+		<Box name="Station" dx="[dxStation]" dy="[StationThick]" dz="[dzStation]"/>
+		<Box name="StripLayerC" dx="[dxLayerC]" dy="[layerThick]" dz="[dzLayer]"/>
+		<Box name="StripLayer" dx="[dxLayer]" dy="[layerThick]" dz="[dzLayer]"/>
+		<Box name="MTTStrip" dx="[dxStrip]" dy="[stripThick]" dz="[dzStrip]"/>
+		<Box name="ScntWrap" dx="[dxWrappedScnt]" dy="[wrappedScntThick]" dz="[dzWrappedScnt]"/>
+		<Box name="Scnt" dx="[dxScnt]" dy="[scntThick]" dz="[dzScnt]"/>
+	</SolidSection>
+	<LogicalPartSection label="mttalgo.xml">
+		<LogicalPart name="StationC" category="unspecified">
+			<rSolid name="StationC"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="Station" category="unspecified">
+			<rSolid name="Station"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="StripLayerC" category="unspecified">
+			<rSolid name="StripLayerC"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="StripLayer" category="unspecified">
+			<rSolid name="StripLayer"/>
+			<rMaterial name="materials:Air"/>
+		</LogicalPart>
+		<LogicalPart name="MTTStrip" category="unspecified">
+			<rSolid name="MTTStrip"/>
+			<rMaterial name="materials:Polystyrene"/>
+		</LogicalPart>
+		<LogicalPart name="ScntWrap" category="unspecified">
+			<rSolid name="ScntWrap"/>
+			<rMaterial name="materials:Polyethylene"/>
+		</LogicalPart>
+		<LogicalPart name="Scnt" category="unspecified">
+			<rSolid name="Scnt"/>
+			<rMaterial name="materials:Scintillator"/>
+		</LogicalPart>
+	</LogicalPartSection>
+	<PosPartSection label="mttalgo.xml">
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo:ScntWrap"/>
+			<rChild name="mttalgo:Scnt"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo:Station"/>
+			<rChild name="mttalgo:StripLayer"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<PosPart copyNumber="1">
+			<rParent name="mttalgo:StationC"/>
+			<rChild name="mttalgo:StripLayerC"/>
+			<Translation x="0*fm" y="0*fm" z="0*fm"/>
+		</PosPart>
+		<Algorithm name="global:DDLinear">
+        	<rParent name="mttalgo:MTTStrip"/>
+        	<String name="ChildName" value="mttalgo:ScntWrap"/>
+        	<Numeric name="N" value="24"/>
+        	<Numeric name="StartCopyNo" value="1"/>
+        	<Numeric name="IncrCopyNo" value="1"/>
+        	<Numeric name="Theta" value="0*deg"/>
+        	<Numeric name="Phi" value="0*deg"/>
+        	<Vector name="Base" type="numeric" nEntries="3"> 0, 0, -1319*mm </Vector>
+        	<Numeric name="Delta" value="0*fm"/>
+        	<Numeric name="Delta" value="0*fm"/>
+        	<Numeric name="Delta" value="[deltaValue]"/>
+    	</Algorithm>
+    	<Algorithm name="global:DDLinear">
+        	<rParent name="mttalgo:StripLayerC"/>
+        	<String name="ChildName" value="mttalgo:MTTStrip"/>
+        	<Numeric name="N" value="17"/>
+        	<Numeric name="StartCopyNo" value="1"/>
+        	<Numeric name="IncrCopyNo" value="1"/>
+        	<Numeric name="Theta" value="90*deg"/>
+        	<Numeric name="Phi" value="0*deg"/>
+        	<Vector name="Base" type="numeric" nEntries="3"> -1085.625*mm, 0, 0 </Vector>
+        	<Numeric name="Delta" value="120.625*mm"/>
+    	</Algorithm>
+    	<Algorithm name="global:DDLinear">
+        	<rParent name="mttalgo:StripLayer"/>
+        	<String name="ChildName" value="mttalgo:MTTStrip"/>
+        	<Numeric name="N" value="18"/>
+        	<Numeric name="StartCopyNo" value="1"/>
+        	<Numeric name="IncrCopyNo" value="1"/>
+        	<Numeric name="Theta" value="90*deg"/>
+        	<Numeric name="Phi" value="0*deg"/>
+        	<Vector name="Base" type="numeric" nEntries="3"> -1149.5*mm, 0, 0 </Vector>
+        	<Numeric name="Delta" value="121*mm"/>
+    	</Algorithm>
+    	<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_2N"/>
+			<String name="ChildName" value="Station"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_1N"/>
+			<String name="ChildName" value="Station"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_0"/>
+			<String name="ChildName" value="StationC"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_1P"/>
+			<String name="ChildName" value="Station"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+		<Algorithm name="hcal:DDHCalAngular">
+			<rParent name="muonBase:MBWheel_2P"/>
+			<String name="ChildName" value="Station"/>
+			<String name="RotNameSpace" value="hcalrotations"/>
+			<Numeric name="n" value="12"/>
+			<Numeric name="startCopyNo" value="1"/>
+			<Numeric name="incrCopyNo" value="1"/>
+			<Numeric name="rangeAngle" value="360*deg"/>
+			<Numeric name="startAngle" value="270*deg"/>
+			<Numeric name="shiftY" value="[yLayer1]"/>
+			<Numeric name="shiftX" value="[xOff]"/>
+			<Numeric name="zoffset" value="0*fm"/>
+		</Algorithm>
+	</PosPartSection>   
+</DDDefinition>

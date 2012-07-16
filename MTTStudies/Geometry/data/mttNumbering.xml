@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DetectorDescription/Schema/DDLSchema.xsd">
+	<ConstantsSection  label="mttNumbering.xml" eval="true">
+		<Constant name="xml_starts_with_copyno" value="1"/>
+		<Constant name="level" value="1000"/>
+		<Constant name="super" value="100"/>
+		<Constant name="base" value="1"/>
+		<Constant name="mb_region" value="1*[level]"/>
+		<Constant name="mb_wheel" value="2*[level]"/>
+		<Constant name="mb_station" value="3*[level]"/>
+		<Constant name="mb_layer" value="4*[level]"/>
+		<Constant name="mb_strip" value="5*[level]"/>
+		<Constant name="mb_tile" value="6*[level]"/>
+	</ConstantsSection>
+	<SpecParSection label="mttnumbering" eval="true">
+  		<SpecPar name="MuonCommonNumbering">
+		</SpecPar>
+	</SpecParSection>
+</DDDefinition>
