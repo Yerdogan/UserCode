@@ -1,0 +1,14 @@
+8c8
+<  * "MuonDTHits", "MuonCSCHits", "MuonRPCHits"
+---
+>  * "MuonDTHits", "MuonCSCHits", "MuonRPCHits", "MuonMTTHits"
+26c22
+<    * "MuonDTHits", "MuonCSCHits", "MuonRPCHits"
+---
+>    * "MuonDTHits", "MuonCSCHits", "MuonRPCHits", "MuonMTTHits"
+34a31
+>   bool isMtt();
+39c36
+<   enum subDetector {barrel,endcap,rpc,nodef};
+---
+>   enum subDetector {barrel,endcap,rpc,mtt,nodef};
