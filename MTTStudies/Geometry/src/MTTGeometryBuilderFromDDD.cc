@@ -5,20 +5,20 @@
  *      Author: maanen
  */
 
-#include <Geometry/MTTGeometryBuilder/interface/MTTGeometryBuilderFromDDD.h>
+#include <MTTStudies/Geometry/interface/MTTGeometryBuilderFromDDD.h>
 
-#include <Geometry/MTTGeometry/interface/MTTGeometry.h>
-#include <Geometry/MTTGeometry/interface/MTTPanel.h>
-#include <Geometry/MTTGeometry/interface/MTTLayer.h>
-#include <Geometry/MTTGeometry/interface/MTTStrip.h>
-#include <Geometry/MTTGeometry/interface/MTTTile.h>
+#include <MTTStudies/Geometry/interface/MTTGeometry.h>
+#include <MTTStudies/Geometry/interface/MTTPanel.h>
+#include <MTTStudies/Geometry/interface/MTTLayer.h>
+#include <MTTStudies/Geometry/interface/MTTStrip.h>
+#include <MTTStudies/Geometry/interface/MTTTile.h>
 
 #include <DetectorDescription/Core/interface/DDFilter.h>
 #include <DetectorDescription/Core/interface/DDFilteredView.h>
 #include <DetectorDescription/Core/interface/DDSolid.h>
 #include "Geometry/MuonNumbering/interface/MuonDDDNumbering.h"
 #include "Geometry/MuonNumbering/interface/MuonBaseNumber.h"
-#include "Geometry/MuonNumbering/interface/MTTNumberingScheme.h"
+#include "MTTStudies/Geometry/interface/MTTNumberingScheme.h"
 #include "DataFormats/MuonDetId/interface/MTTPanelId.h"
 #include "CLHEP/Units/GlobalSystemOfUnits.h"
 #include "DataFormats/GeometrySurface/interface/RectangularPlaneBounds.h"

@@ -1,9 +1,9 @@
-#include <Geometry/MTTGeometryBuilder/interface/MTTGeometryParsFromDD.h>
-#include <Geometry/MTTGeometry/interface/MTTGeometry.h>   ///TODO
-#include <Geometry/MTTGeometry/interface/MTTPanel.h>
-#include <Geometry/MTTGeometry/interface/MTTLayer.h>
-#include <Geometry/MTTGeometry/interface/MTTStrip.h>
-#include <Geometry/MTTGeometry/interface/MTTTile.h>
+#include <MTTStudies/Geometry/interface/MTTGeometryParsFromDD.h>
+#include <MTTStudies/Geometry/interface/MTTGeometry.h>   ///TODO
+#include <MTTStudies/Geometry/interface/MTTPanel.h>
+#include <MTTStudies/Geometry/interface/MTTLayer.h>
+#include <MTTStudies/Geometry/interface/MTTStrip.h>
+#include <MTTStudies/Geometry/interface/MTTTile.h>
 
 #include <CondFormats/GeometryObjects/interface/RecoIdealGeometry.h>
 #include <DetectorDescription/Core/interface/DDFilter.h>   ///TODO
@@ -11,11 +11,11 @@
 #include <DetectorDescription/Core/interface/DDSolid.h>
 #include <Geometry/MuonNumbering/interface/MuonDDDNumbering.h>
 #include <Geometry/MuonNumbering/interface/MuonBaseNumber.h>   ///TODO
-#include <Geometry/MuonNumbering/interface/MTTNumberingScheme.h>
-#include <DataFormats/MuonDetId/interface/MTTPanelId.h>
-#include <DataFormats/MuonDetId/interface/MTTLayerId.h>
-#include <DataFormats/MuonDetId/interface/MTTStripId.h>
-#include <DataFormats/MuonDetId/interface/MTTTileId.h>
+#include <MTTStudies/Geometry/interface/MTTNumberingScheme.h>
+#include <MTTStudies/Geometry/interface/MTTPanelId.h>
+#include <MTTStudies/Geometry/interface/MTTLayerId.h>
+#include <MTTStudies/Geometry/interface/MTTStripId.h>
+#include <MTTStudies/Geometry/interface/MTTTileId.h>
 #include <CLHEP/Units/GlobalSystemOfUnits.h>   ///TODO
 
 

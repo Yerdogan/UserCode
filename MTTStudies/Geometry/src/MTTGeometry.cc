@@ -1,5 +1,5 @@
 
-#include <Geometry/MTTGeometry/interface/MTTGeometry.h>
+#include <MTTStudies/Geometry/interface/MTTGeometry.h>
 #include <Geometry/CommonDetUnit/interface/GeomDetUnit.h>
 
 #include <algorithm>
