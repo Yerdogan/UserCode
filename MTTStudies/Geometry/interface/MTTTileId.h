@@ -4,12 +4,12 @@
 /** \class MTTTileId
  *  DetUnit identifier for MTT Tiles
  *
- *  $Date: 2012/05/03 12:28:08 $
- *  $Revision: 1.2 $
+ *  $Date: 2012/07/19 14:18:01 $
+ *  $Revision: 1.1 $
  *  \author P. Maanen
  */
 
-#include <DataFormats/MuonDetId/interface/MTTStripId.h>
+#include <MTTStudies/Geometry/interface/MTTStripId.h>
 
 
 class MTTTileId :public MTTStripId {

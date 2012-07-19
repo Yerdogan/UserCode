@@ -1,4 +1,4 @@
-#include "SimMuon/MTTDigitizer/interface/MTTSim.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSim.h"
 //#include "SimMuon/MTTDigitizer/src/MTTSimSetUp.h"
 #include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
 

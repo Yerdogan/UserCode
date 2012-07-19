@@ -5,8 +5,8 @@
 #include "Geometry/CommonDetUnit/interface/GeomDet.h"
 
 /* Collaborating Class Declarations */
-#include "DataFormats/MuonDetId/interface/MTTStripId.h"
-#include "DataFormats/MuonDetId/interface/MTTTileId.h"
+#include "MTTStudies/Geometry/interface/MTTStripId.h"
+#include "MTTStudies/Geometry/interface/MTTTileId.h"
 
 class MTTTile;
 class MTTLayer;

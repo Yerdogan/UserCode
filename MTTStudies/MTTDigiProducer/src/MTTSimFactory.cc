@@ -1,4 +1,4 @@
-#include "SimMuon/MTTDigitizer/interface/MTTSimFactory.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSimFactory.h"
 
 #include "FWCore/PluginManager/interface/PluginFactory.h"
 

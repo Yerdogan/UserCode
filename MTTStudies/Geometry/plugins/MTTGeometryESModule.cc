@@ -1,12 +1,12 @@
 /** \file
  *
- *  $Date: 2012/05/04 11:59:00 $
- *  $Revision: 1.3 $
+ *  $Date: 2012/07/16 11:35:14 $
+ *  $Revision: 1.1 $
  *  \author N. Amapane - CERN
  */
 
 #include "MTTGeometryESModule.h"
-#include <Geometry/MTTGeometryBuilder/interface/MTTGeometryBuilderFromDDD.h>
+#include <MTTStudies/Geometry/interface/MTTGeometryBuilderFromDDD.h>
 
 #include <Geometry/Records/interface/IdealGeometryRecord.h>
 #include <Geometry/Records/interface/MuonNumberingRecord.h>

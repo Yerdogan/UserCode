@@ -4,12 +4,12 @@
 /** \class MTTStripId
  *  DetUnit identifier for MTT strips
  *
- *  $Date: 2012/05/03 12:28:08 $
- *  $Revision: 1.2 $
+ *  $Date: 2012/07/19 14:18:01 $
+ *  $Revision: 1.1 $
  *  \author G. Cerminara - INFN Torino
  */
 
-#include <DataFormats/MuonDetId/interface/MTTLayerId.h>
+#include <MTTStudies/Geometry/interface/MTTLayerId.h>
 
 class MTTStripId : public MTTLayerId {
  public:

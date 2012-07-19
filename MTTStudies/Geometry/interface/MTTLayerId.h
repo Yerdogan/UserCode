@@ -4,12 +4,12 @@
 /** \class MTTLayerId
  *  DetUnit identifier for MTT Layers
  *
- *  $Date: 2012/05/03 12:28:08 $
- *  $Revision: 1.2 $
+ *  $Date: 2012/07/19 14:18:01 $
+ *  $Revision: 1.1 $
  *  \author P. Maanen
  */
 
-#include <DataFormats/MuonDetId/interface/MTTPanelId.h>
+#include <MTTStudies/Geometry/interface/MTTPanelId.h>
 
 
 class MTTLayerId : public MTTPanelId {
@@ -24,7 +24,7 @@ public:
   /// It is required that the packed id represents a valid MTT DetId
   /// (proper Detector and  SubDet fields), otherwise an exception is thrown.
   /// Any bits outside the MTTLayerId fields are zeroed; apart for
-  /// this, no check is done on the vaildity of the values.
+  /// this, no check is done on the validity of the values.
   explicit MTTLayerId(uint32_t id);
 
 

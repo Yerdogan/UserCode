@@ -1,6 +1,6 @@
-#include "Geometry/MTTGeometry/interface/MTTTile.h"
+#include "MTTStudies/Geometry/interface/MTTTile.h"
 
-#include "Geometry/MTTGeometry/interface/MTTStrip.h"
+#include "MTTStudies/Geometry/interface/MTTStrip.h"
 
 MTTTile::MTTTile(MTTTileId id, ReferenceCountingPointer<BoundPlane>& plane, const MTTStrip* st) :
 	GeomDetUnit(*&plane), theId(id), theStrip(st), theTopo(0, 0, 0) {

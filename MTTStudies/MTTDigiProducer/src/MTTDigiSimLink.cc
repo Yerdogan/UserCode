@@ -1,1 +1,1 @@
-#include "SimDataFormats/MTTDigiSimLink/src/MTTDigiSimLink.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTDigiSimLink.h"

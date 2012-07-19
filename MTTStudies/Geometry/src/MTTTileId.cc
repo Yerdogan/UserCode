@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include <DataFormats/MuonDetId/interface/MTTTileId.h>
+#include <MTTStudies/Geometry/interface/MTTTileId.h>
 #include <FWCore/Utilities/interface/Exception.h>
 
 

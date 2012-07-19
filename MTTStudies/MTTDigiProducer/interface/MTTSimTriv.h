@@ -1,7 +1,7 @@
 #ifndef MTTDigitizer_MTTSimTriv_h
 #define MTTDigitizer_MTTSimTriv_h
 
-#include "SimMuon/MTTDigitizer/interface/MTTSim.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSim.h"
 
 class MTTGeometry;
 

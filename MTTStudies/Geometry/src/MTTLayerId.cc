@@ -1,13 +1,13 @@
 /** \file
  *  See header file for a description of this class.
  *
- *  $Date: 2012/05/03 12:28:09 $
- *  $Revision: 1.3 $
+ *  $Date: 2012/07/19 14:18:01 $
+ *  $Revision: 1.1 $
  *  \author P. Maanen
  */
 
 #include <iostream>
-#include <DataFormats/MuonDetId/interface/MTTLayerId.h>
+#include <MTTStudies/Geometry/interface/MTTLayerId.h>
 #include <FWCore/Utilities/interface/Exception.h>
 
 

@@ -25,12 +25,12 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/MuonDetId/interface/MTTTileId.h"
+#include "MTTStudies/Geometry/interface/MTTTileId.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
 #include "TH2F.h"
 #include "TGraph2D.h"
-#include "Geometry/MTTGeometry/interface/MTTGeometry.h"
+#include "MTTStudies/Geometry/interface/MTTGeometry.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include <DataFormats/GeometryVector/interface/Point3DBase.h>
 #include "Geometry/Records/interface/MuonGeometryRecord.h"

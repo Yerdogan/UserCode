@@ -2,7 +2,7 @@
 #define MTTDigitizer_MTTSim_h
 
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
-#include "DataFormats/MTTDigi/interface/MTTDigiCollection.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTDigiCollection.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include <FWCore/Framework/interface/EventSetup.h>
 
@@ -11,7 +11,7 @@
 
 #include "DataFormats/Common/interface/DetSet.h"
 #include "SimDataFormats/TrackerDigiSimLink/interface/StripDigiSimLink.h"
-#include "SimDataFormats/MTTDigiSimLink/src/MTTDigiSimLink.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTDigiSimLink.h"
 #include "CLHEP/Random/RandomEngine.h"
 
 class MTTTile;

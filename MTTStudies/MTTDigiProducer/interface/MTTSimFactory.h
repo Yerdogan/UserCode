@@ -2,7 +2,7 @@
 #define MTTDigitizer_MTTSimFactory_h
 
 #include "FWCore/PluginManager/interface/PluginFactory.h"
-#include "SimMuon/MTTDigitizer/interface/MTTSim.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSim.h"
 
 namespace edm{
   class ParameterSet;

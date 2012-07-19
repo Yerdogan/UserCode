@@ -1,8 +1,8 @@
 /* This Class Header */
-#include "Geometry/MTTGeometry/interface/MTTTileType.h"
+#include "MTTStudies/Geometry/interface/MTTTileType.h"
 
 /* Collaborating Class Header */
-#include "Geometry/MTTGeometry/interface/MTTTopology.h"
+#include "MTTStudies/Geometry/interface/MTTTopology.h"
 
 /* Constructor */
 MTTTileType::MTTTileType() :

@@ -1,6 +1,6 @@
-#include "Geometry/MTTGeometry/interface/MTTStrip.h"
-#include "Geometry/MTTGeometry/interface/MTTLayer.h"
-#include "Geometry/MTTGeometry/interface/MTTTile.h"
+#include "MTTStudies/Geometry/interface/MTTStrip.h"
+#include "MTTStudies/Geometry/interface/MTTLayer.h"
+#include "MTTStudies/Geometry/interface/MTTTile.h"
 
 #include <iostream>
 

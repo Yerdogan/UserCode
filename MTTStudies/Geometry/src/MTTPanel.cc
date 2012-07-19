@@ -1,8 +1,8 @@
-#include "Geometry/MTTGeometry/interface/MTTPanel.h"
+#include "MTTStudies/Geometry/interface/MTTPanel.h"
 
 /* Collaborating Class Header */
-#include "Geometry/MTTGeometry/interface/MTTLayer.h"
-#include "Geometry/MTTGeometry/interface/MTTStrip.h"
+#include "MTTStudies/Geometry/interface/MTTLayer.h"
+#include "MTTStudies/Geometry/interface/MTTStrip.h"
 
 /* C++ Headers */
 #include <iostream>

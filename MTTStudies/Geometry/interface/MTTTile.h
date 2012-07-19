@@ -2,10 +2,10 @@
 #define MTTTILE_H
 
 #include "Geometry/CommonDetUnit/interface/GeomDetUnit.h"
-#include "Geometry/MTTGeometry/interface/MTTTopology.h"
-#include "Geometry/MTTGeometry/interface/MTTTileType.h"
+#include "MTTStudies/Geometry/interface/MTTTopology.h"
+#include "MTTStudies/Geometry/interface/MTTTileType.h"
 /* Collaborating Class Declarations */
-#include "DataFormats/MuonDetId/interface/MTTTileId.h"
+#include "MTTStudies/Geometry/interface/MTTTileId.h"
 
 class MTTStrip;
 class MTTLayer;

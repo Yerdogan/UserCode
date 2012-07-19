@@ -10,7 +10,7 @@
 #include "FWCore/Framework/interface/EventSetupRecordIntervalFinder.h"
 #include <FWCore/ParameterSet/interface/ParameterSet.h>
 #include <Geometry/Records/interface/MuonGeometryRecord.h>
-#include <Geometry/MTTGeometry/interface/MTTGeometry.h>
+#include <MTTStudies/Geometry/interface/MTTGeometry.h>
 
 #include <string>
 

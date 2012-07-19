@@ -13,11 +13,11 @@
 #include "SimDataFormats/MTTDigiSimLink/src/MTTDigiSimLink.h"
 #include "DataFormats/MTTDigi/interface/MTTDigiCollection.h"
 
-#include "Geometry/MTTGeometry/interface/MTTGeometry.h"
-#include "Geometry/MTTGeometry/interface/MTTTile.h"
-#include "SimMuon/MTTDigitizer/interface/MTTSim.h"
-#include "SimMuon/MTTDigitizer/interface/MTTSimTriv.h"
-#include "SimMuon/MTTDigitizer/interface/MTTSimFactory.h"
+#include "MTTStudies/Geometry/interface/MTTGeometry.h"
+#include "MTTStudies/Geometry/interface/MTTTile.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSim.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSimTriv.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSimFactory.h"
 
 //Random Number
 #include "FWCore/ServiceRegistry/interface/Service.h"

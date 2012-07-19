@@ -1,5 +1,5 @@
-#include "Geometry/MTTGeometry/interface/MTTTile.h"
-#include "SimMuon/MTTDigitizer/interface/MTTSimTriv.h"
+#include "MTTStudies/Geometry/interface/MTTTile.h"
+#include "MTTStudies/MTTDigiProducer/interface/MTTSimTriv.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Utilities/interface/RandomNumberGenerator.h"
