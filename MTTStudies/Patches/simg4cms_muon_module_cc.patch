@@ -1,0 +1,4 @@
+1a2
+> #include "SimG4CMS/Muon/interface/MTTSensitiveDetector.h"
+6a8
+> DEFINE_SENSITIVEDETECTOR(MTTSensitiveDetector);

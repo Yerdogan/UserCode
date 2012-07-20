@@ -1,0 +1,8 @@
+75a76
+>     produces<edm::PSimHitContainer>("MTTHits");
+160a162
+> 	    std::cout<<*in<<std::endl;
+224c226
+< 
+---
+> //Dumb

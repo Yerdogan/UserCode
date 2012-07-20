@@ -1,0 +1,15 @@
+6a7,9
+> 
+> 	std::cout << "name: " << name << std::endl;
+> 
+12a16,17
+>   } else if (name=="MTTHits") {
+> 	detector=mtt;
+31a37,40
+> bool MuonSubDetector::isMtt(){
+>   return (detector==mtt);
+> }
+> 
+42a52,53
+>   } else if (detector==mtt) {
+> 	return "MuonHitsMTT";
