@@ -19,7 +19,7 @@
 #include "Geometry/MuonNumbering/interface/MuonDDDNumbering.h"
 #include "Geometry/MuonNumbering/interface/MuonBaseNumber.h"
 #include "MTTStudies/Geometry/interface/MTTNumberingScheme.h"
-#include "DataFormats/MuonDetId/interface/MTTPanelId.h"
+#include "MTTStudies/Geometry/interface/MTTPanelId.h"
 #include "CLHEP/Units/GlobalSystemOfUnits.h"
 #include "DataFormats/GeometrySurface/interface/RectangularPlaneBounds.h"
 

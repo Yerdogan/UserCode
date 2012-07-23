@@ -1,4 +1,4 @@
-#include "SimG4CMS/Muon/interface/MTTSensitiveDetector.h"
+#include "MTTStudies/Geometry/interface/MTTSensitiveDetector.h"
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
@@ -20,7 +20,6 @@
 #include "Geometry/MuonNumbering/interface/MuonSubDetector.h"
 #include "SimG4CMS/Muon/interface/MuonG4Numbering.h"
 #include "Geometry/MuonNumbering/interface/MuonBaseNumber.h"
-#include "Geometry/MuonNumbering/interface/MuonSimHitNumberingScheme.h"
 
 #include "G4Track.hh"
 #include "G4SDManager.hh"
@@ -64,9 +63,9 @@ MTTSensitiveDetector::MTTSensitiveDetector(std::string name,
   theG4ProcessTypeEnumerator = new G4ProcessTypeEnumerator;
   myG4TrackToParticleID = new G4TrackToParticleID;
 
-  detector = new MuonSubDetector(name);
+  //detector = new MuonSubDetector(name);
 
-  numbering  = new MuonSimHitNumberingScheme(detector, cpv);
+  numbering  = new MTTNumberingScheme(cpv);
   g4numbering = new MuonG4Numbering(cpv);
 }
 

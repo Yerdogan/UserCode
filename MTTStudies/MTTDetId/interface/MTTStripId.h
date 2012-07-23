@@ -4,8 +4,8 @@
 /** \class MTTStripId
  *  DetUnit identifier for MTT strips
  *
- *  $Date: 2012/07/19 14:18:01 $
- *  $Revision: 1.1 $
+ *  $Date: 2012/07/19 14:49:30 $
+ *  $Revision: 1.2 $
  *  \author G. Cerminara - INFN Torino
  */
 

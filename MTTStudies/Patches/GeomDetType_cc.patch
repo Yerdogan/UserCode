@@ -1,0 +1,11 @@
+56a57,62
+> bool GeomDetType::isMTT() const
+> {
+>   return (theSubDet == MTT) ;
+> }
+> 
+> 
+59c65
+<   return (theSubDet == DT || theSubDet == CSC || isRPC()) ;
+---
+>   return (theSubDet == DT || theSubDet == CSC || isRPC() || isMTT()) ;

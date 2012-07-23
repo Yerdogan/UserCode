@@ -1,8 +1,8 @@
 /** \file
  *  See header file for a description of this class.
  *
- *  $Date: 2012/07/19 14:18:02 $
- *  $Revision: 1.1 $
+ *  $Date: 2012/07/19 14:49:30 $
+ *  $Revision: 1.2 $
  *  \author P. Maanen
  */
 
@@ -13,8 +13,8 @@
 
 using namespace std;
 
-MTTPanelId::MTTPanelId() : DetId(DetId::Muon, MuonSubdetId::MTT){}
-
+MTTPanelId::MTTPanelId() : DetId(DetId::Muon, 4){}
+//We use 4 instead as SubDetId for MTT 
 
 MTTPanelId::MTTPanelId(uint32_t id) :
   DetId(id & PanelIdMask_) { // Mask the bits outside DTPanelId fields
@@ -28,7 +28,7 @@ MTTPanelId::MTTPanelId(DetId id) :
 
 
 MTTPanelId::MTTPanelId(int wheel, int station, int sector):
-  DetId(DetId::Muon, MuonSubdetId::MTT) {
+  DetId(DetId::Muon, 4) {
     // Check that arguments are within the range
     if (wheel      < minWheelId      || wheel      > maxWheelId ||
 	station    < minStationId    || station    > maxStationId ||
@@ -57,7 +57,7 @@ MTTPanelId::MTTPanelId(const MTTPanelId& chId) :
 
 
 void MTTPanelId::checkMTTId() {
-  if (det()!=DetId::Muon || subdetId()!=MuonSubdetId::MTT) {
+  if (det()!=DetId::Muon || subdetId()!=4) {
     throw cms::Exception("InvalidDetId") << "MTTPanelId ctor:"
 					 << " det: " << det()
 					 << " subdet: " << subdetId()

@@ -2,7 +2,7 @@
  * Impl of MTTStripId
  *
  * \author P. Maanen
- * \version $Id: MTTStripId.cc,v 1.1 2012/07/19 14:18:02 erdogan Exp $
+ * \version $Id: MTTStripId.cc,v 1.2 2012/07/19 14:49:30 pmaanen Exp $
  * \date 12 Apr 2012
 */
 

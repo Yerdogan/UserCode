@@ -4,7 +4,7 @@
 /** \class MTTPanelId
  *  DetUnit identifier for MTT Panels.
  *  
- *  $Date: 2012/05/03 12:28:08 $
+ *  $Date: 2012/07/19 14:18:01 $
  *  $Revision: 1.1 $
  *  \author Paul Maanen
  */

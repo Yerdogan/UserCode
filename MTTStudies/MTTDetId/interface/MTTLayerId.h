@@ -4,8 +4,8 @@
 /** \class MTTLayerId
  *  DetUnit identifier for MTT Layers
  *
- *  $Date: 2012/07/19 14:18:01 $
- *  $Revision: 1.1 $
+ *  $Date: 2012/07/19 14:49:30 $
+ *  $Revision: 1.2 $
  *  \author P. Maanen
  */
 

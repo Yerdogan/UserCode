@@ -27,8 +27,8 @@ class UpdatablePSimHit;
 class G4ProcessTypeEnumerator;
 class G4TrackToParticleID;
 class MuonG4Numbering;
-class MuonSubDetector;
-class MuonSimHitNumberingScheme;
+//class MuonSubDetector;
+class MTTNumberingScheme;
 
 class MTTSensitiveDetector : public SensitiveTkDetector,
                              public Observer<const BeginOfEvent*>,
@@ -79,8 +79,8 @@ private:
   int eventno;
   std::string pname;
 
-  MuonSubDetector* detector;
-  MuonSimHitNumberingScheme* numbering;
+ // MuonSubDetector* detector;
+  MTTNumberingScheme* numbering;
   MuonG4Numbering* g4numbering;
 
 };

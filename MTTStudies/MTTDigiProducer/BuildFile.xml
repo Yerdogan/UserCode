@@ -1,0 +1,29 @@
+<use   name="boost"/>
+<use   name="CondCore/DBCommon"/>
+<use   name="CondCore/DBOutputService"/>
+<use   name="CondCore/IOVService"/>
+<use   name="CondCore/MetaDataService"/>
+<use   name="CondCore/PopCon"/>
+<use   name="CondFormats/DataRecord"/>
+<use   name="FWCore/Catalog"/>
+<use name="FWCore/Framework"/>
+<use   name="FWCore/MessageLogger"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/Utilities"/>
+<use name="FWCore/ServiceRegistry"/>
+<use   name="Geometry/CommonDetUnit"/>
+<use   name="Geometry/Records"/>
+<use   name="MTTStudies/Geometry"/>
+<use   name="PhysicsTools/UtilAlgos"/>
+<use   name="RelationalAccess"/>
+<use   name="root"/>
+<use   name="rootrflx"/>
+<use   name="SimDataFormats/CrossingFrame"/>
+<use   name="SimGeneral/HepPDTRecord"/>
+<use   name="Utilities/General"/>
+<flags EDM_PLUGIN="1"/>
+<export>
+   <lib name="1"/>
+</export>
+
