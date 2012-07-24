@@ -5,7 +5,7 @@
 #include "MTTStudies/Geometry/interface/MTTTopology.h"
 #include "MTTStudies/Geometry/interface/MTTTileType.h"
 /* Collaborating Class Declarations */
-#include "MTTStudies/Geometry/interface/MTTTileId.h"
+#include "MTTStudies/MTTDetId/interface/MTTTileId.h"
 
 class MTTStrip;
 class MTTLayer;

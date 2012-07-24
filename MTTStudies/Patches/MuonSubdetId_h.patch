@@ -1,5 +1,0 @@
-16c16,17
-<   static const int RPC=3; 
----
->   static const int RPC=3;
->   static const int MTT=4;

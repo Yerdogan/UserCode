@@ -2,9 +2,9 @@
 #define MTTGeometry_MTTLayer_h
 
 #include "Geometry/CommonDetUnit/interface/GeomDet.h"
-#include "MTTStudies/Geometry/interface/MTTLayerId.h"
-#include "MTTStudies/Geometry/interface/MTTStripId.h"
-#include "MTTStudies/Geometry/interface/MTTTileId.h"
+#include "MTTStudies/MTTDetId/interface/MTTLayerId.h"
+#include "MTTStudies/MTTDetId/interface/MTTStripId.h"
+#include "MTTStudies/MTTDetId/interface/MTTTileId.h"
 
 class MTTStrip;
 class MTTTile;

@@ -2,12 +2,12 @@
  * Impl of MTTStripId
  *
  * \author P. Maanen
- * \version $Id: MTTStripId.cc,v 1.2 2012/07/19 14:49:30 pmaanen Exp $
+ * \version $Id: MTTStripId.cc,v 1.1 2012/07/23 12:48:44 erdogan Exp $
  * \date 12 Apr 2012
 */
 
 #include <iostream>
-#include <MTTStudies/Geometry/interface/MTTStripId.h>
+#include <MTTStudies/MTTDetId/interface/MTTStripId.h>
 #include <FWCore/Utilities/interface/Exception.h>
 
 

@@ -2,9 +2,9 @@
 #define MTTGeometry_MTTPanel_h
 
 #include "Geometry/CommonDetUnit/interface/GeomDet.h"
-#include "MTTStudies/Geometry/interface/MTTPanelId.h"
-#include "MTTStudies/Geometry/interface/MTTLayerId.h"
-#include "MTTStudies/Geometry/interface/MTTStripId.h"
+#include "MTTStudies/MTTDetId/interface/MTTPanelId.h"
+#include "MTTStudies/MTTDetId/interface/MTTLayerId.h"
+#include "MTTStudies/MTTDetId/interface/MTTStripId.h"
 
 class MTTLayer;
 class MTTStrip;

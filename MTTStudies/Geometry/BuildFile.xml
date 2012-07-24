@@ -3,7 +3,6 @@
 </export>
 <use   name="Geometry/CommonDetUnit"/>
 <use   name="Geometry/MuonNumbering"/>
-<use   name="MTTStudies/MTTNumbering"/>
 <use   name="DataFormats/MuonDetId"/>
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/Math"/>
@@ -11,6 +10,7 @@
 <use   name="SimDataFormats/Forward"/>
 <use   name="SimDataFormats/Track"/>
 <use   name="SimDataFormats/Vertex"/>
+<use   name="SimG4Core/Application"/>
 <use   name="SimG4Core/Generators"/>
 <use   name="SimG4Core/Geometry"/>
 <use   name="SimG4Core/MagneticField"/>
@@ -30,3 +30,5 @@
 <use   name="heppdt"/>
 <use   name="rootrflx"/>
 <use   name="DetectorDescription/Core"/>
+<use   name="MTTStudies/MTTDetId"/>
+<use   name="SimG4CMS/Muon"/>

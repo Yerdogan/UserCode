@@ -4,12 +4,12 @@
 /** \class MTTLayerId
  *  DetUnit identifier for MTT Layers
  *
- *  $Date: 2012/07/19 14:49:30 $
- *  $Revision: 1.2 $
+ *  $Date: 2012/07/23 12:48:43 $
+ *  $Revision: 1.1 $
  *  \author P. Maanen
  */
 
-#include <MTTStudies/Geometry/interface/MTTPanelId.h>
+#include <MTTStudies/MTTDetId/interface/MTTPanelId.h>
 
 
 class MTTLayerId : public MTTPanelId {

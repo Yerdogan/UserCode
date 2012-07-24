@@ -1,5 +1,5 @@
-#include "MTTStudies/MTTNumbering/interface/MTTNumberingScheme.h"
-#include "MTTStudies/Geometry/interface/MTTTileId.h"
+#include "MTTStudies/Geometry/interface/MTTNumberingScheme.h"
+#include "MTTStudies/MTTDetId/interface/MTTTileId.h"
 #include "Geometry/MuonNumbering/interface/MuonBaseNumber.h"
 #include "Geometry/MuonNumbering/interface/MuonDDDConstants.h"
 #include <iostream>

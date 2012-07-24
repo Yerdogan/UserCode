@@ -18,8 +18,8 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "Geometry/MuonNumbering/interface/MuonSubDetector.h"
-#include "SimG4CMS/Muon/interface/MuonG4Numbering.h"
 #include "Geometry/MuonNumbering/interface/MuonBaseNumber.h"
+#include "MTTStudies/Geometry/interface/MTTNumberingScheme.h"
 
 #include "G4Track.hh"
 #include "G4SDManager.hh"

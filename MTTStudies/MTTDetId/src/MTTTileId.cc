@@ -7,7 +7,7 @@
 
 
 #include <iostream>
-#include <MTTStudies/Geometry/interface/MTTTileId.h>
+#include <MTTStudies/MTTDetId/interface/MTTTileId.h>
 #include <FWCore/Utilities/interface/Exception.h>
 
 

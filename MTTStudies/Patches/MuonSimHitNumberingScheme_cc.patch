@@ -1,8 +1,0 @@
-4a5
-> #include "MTTStudies/Geometry/interface/MTTNumberingScheme.h"
-18c19,21
-<   } 
----
->   } else if (theDetector->isMtt()){
-> 	theNumbering=new MTTNumberingScheme(cpv);
->   }

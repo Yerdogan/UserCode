@@ -1,13 +1,13 @@
 /** \file
  *  See header file for a description of this class.
  *
- *  $Date: 2012/07/19 14:49:30 $
- *  $Revision: 1.2 $
+ *  $Date: 2012/07/23 12:48:44 $
+ *  $Revision: 1.1 $
  *  \author P. Maanen
  */
 
 #include <iostream>
-#include <MTTStudies/Geometry/interface/MTTLayerId.h>
+#include <MTTStudies/MTTDetId/interface/MTTLayerId.h>
 #include <FWCore/Utilities/interface/Exception.h>
 
 

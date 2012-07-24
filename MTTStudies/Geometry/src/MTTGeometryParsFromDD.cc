@@ -12,10 +12,10 @@
 #include <Geometry/MuonNumbering/interface/MuonDDDNumbering.h>
 #include <Geometry/MuonNumbering/interface/MuonBaseNumber.h>   ///TODO
 #include <MTTStudies/Geometry/interface/MTTNumberingScheme.h>
-#include <MTTStudies/Geometry/interface/MTTPanelId.h>
-#include <MTTStudies/Geometry/interface/MTTLayerId.h>
-#include <MTTStudies/Geometry/interface/MTTStripId.h>
-#include <MTTStudies/Geometry/interface/MTTTileId.h>
+#include <MTTStudies/MTTDetId/interface/MTTPanelId.h>
+#include <MTTStudies/MTTDetId/interface/MTTLayerId.h>
+#include <MTTStudies/MTTDetId/interface/MTTStripId.h>
+#include <MTTStudies/MTTDetId/interface/MTTTileId.h>
 #include <CLHEP/Units/GlobalSystemOfUnits.h>   ///TODO
 
 

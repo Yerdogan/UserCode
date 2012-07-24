@@ -13,6 +13,7 @@
 
 #include "SimG4Core/Notification/interface/G4TrackToParticleID.h"
 #include "SimG4Core/Physics/interface/G4ProcessTypeEnumerator.h"
+#include "SimG4CMS/Muon/interface/MuonG4Numbering.h"
 
 #include "G4Step.hh"
 #include "G4StepPoint.hh"
@@ -26,7 +27,7 @@ class TrackingSlaveSD;
 class UpdatablePSimHit;
 class G4ProcessTypeEnumerator;
 class G4TrackToParticleID;
-class MuonG4Numbering;
+//class MuonG4Numbering;
 //class MuonSubDetector;
 class MTTNumberingScheme;
 
