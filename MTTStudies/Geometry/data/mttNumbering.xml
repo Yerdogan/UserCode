@@ -5,15 +5,54 @@
 		<Constant name="level" value="1000"/>
 		<Constant name="super" value="100"/>
 		<Constant name="base" value="1"/>
-		<Constant name="mb_region" value="1*[level]"/>
-		<Constant name="mb_wheel" value="2*[level]"/>
-		<Constant name="mb_station" value="3*[level]"/>
-		<Constant name="mb_layer" value="4*[level]"/>
-		<Constant name="mb_strip" value="5*[level]"/>
-		<Constant name="mb_tile" value="6*[level]"/>
+		<Constant name="mtt_panel" value="3*[level]"/>	
+		<Constant name="mtt_layer" value="4*[level]"/>
+		<Constant name="mtt_strip" value="5*[level]"/>
+		<Constant name="mtt_tile" value="6*[level]"/>
 	</ConstantsSection>
-	<SpecParSection label="mttnumbering" eval="true">
-  		<SpecPar name="MuonCommonNumbering">
-		</SpecPar>
-	</SpecParSection>
+
+ <SpecParSection label="muonregionnumbering" eval="true">
+  <SpecPar name="MuonCommonNumbering">
+   <PartSelector path="//MUON"/>
+   <Parameter name="OnlyForMuonNumbering" value="justputsomethingheretonotfind" eval="false"/>
+   <Parameter name="xml_starts_with_copyno" value="[xml_starts_with_copyno]"/>
+   <Parameter name="level" value="[level]"/>
+   <Parameter name="super" value="[super]"/>
+   <Parameter name="base" value="[base]"/>
+   <Parameter name="mtt_panel" value="3*[level]"/>
+   <Parameter name="mtt_layer" value="4*[level]"/>
+   <Parameter name="mtt_strip" value="5*[level]"/>
+   <Parameter name="mtt_tile" value="6*[level]"/>
+    </SpecPar>
+ </SpecParSection>
+
+
+ <SpecParSection label="muonmttnumbering" eval="true">
+  <SpecPar name="MTTPanel">
+   <PartSelector path="//Panel"/>
+   <PartSelector path="//PanelC"/>
+   <Parameter name="CopyNoTag" value="[mtt_panel]"/>
+   <Parameter name="CopyNoOffset" value="1*[super]"/>
+  </SpecPar>
+  <SpecPar name="MTTLayer">
+   <PartSelector path="//StripLayer"/>
+   <PartSelector path="//StripLayerC"/>
+   <Parameter name="CopyNoTag" value="[mtt_layer]"/>
+   <Parameter name="CopyNoOffset" value="1*[super]"/>
+  </SpecPar>
+  <SpecPar name="MTTStrip">
+   <PartSelector path="//MTTStrip"/>
+   <PartSelector path="//MTTStripC"/>
+   <Parameter name="CopyNoTag" value="[mtt_strip]"/>
+   <Parameter name="CopyNoOffset" value="1*[super]"/>
+  </SpecPar>
+  <SpecPar name="MTTTile">
+   <PartSelector path="//Scnt"/>
+   <PartSelector path="//ScntC"/>
+   <Parameter name="CopyNoTag" value="[mtt_tile]"/>
+   <Parameter name="CopyNoOffset" value="1*[super]"/>
+  </SpecPar>
+ </SpecParSection>  
+  
+  
 </DDDefinition>
