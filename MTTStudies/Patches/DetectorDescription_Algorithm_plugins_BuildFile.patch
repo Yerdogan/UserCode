@@ -1,0 +1,6 @@
+1c1,3
+< <use   name="DetectorDescription/Algorithm"/>
+---
+> <library file="module.cc" name="DetectorDescriptionAlgorithmPlugins">
+>  <use name="DetectorDescription/Algorithm"/>
+> </library>
