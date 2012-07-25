@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Mon Jun 18 12:01:12 CEST 2012
-// $Id$
+// $Id: CrossingFrameAnalyzer.cc,v 1.1 2012/07/20 11:57:20 pmaanen Exp $
 //
 //
 
@@ -142,20 +142,20 @@ int count=0;
      }
    std::map<uint32_t,bool> MuonMap;
    for(std::map<uint32_t,std::vector<PSimHit> >::iterator iTile=HitMap.begin();iTile!=HitMap.end();++iTile) {
-       MuonMap[iTile.first]=false;
+       MuonMap[iTile->first]=false;
 	   float totalEnergyLoss=0;
-	   for(std::vector<PSimHit>::iterator iHit=iTile->second.begin();iHit!=iTile->second().end;++iHit) {
+	   for(std::vector<PSimHit>::iterator iHit=iTile->second.begin();iHit!=iTile->second.end();++iHit) {
 		   totalEnergyLoss+=iHit->energyLoss();
 	   if(iHit->particleType()==13)
-		   MuonMap[iTile.first]=true;
+		   MuonMap[iTile->first]=true;
 	   }
-	EnergyMap[iTile.first]=totalEnergyLoss;
+	EnergyMap[iTile->first]=totalEnergyLoss;
    }
    for(std::map<uint32_t,std::vector<PSimHit> >::iterator iTile=HitMap.begin();iTile!=HitMap.end();++iTile) {
-	   if(MuonMap[iTile.first])
-		   theHistoMap["elossmu"]->Fill(EnergyMap[iTile.first]);
+	   if(MuonMap[iTile->first])
+		   theHistoMap["elossmu"]->Fill(EnergyMap[iTile->first]);
 	   else
-		   theHistoMap["eloss"]->Fill(EnergyMap[iTile.first]);
+		   theHistoMap["eloss"]->Fill(EnergyMap[iTile->first]);
    }
 
    theHistoMap["nHitsVsNEvts"]->Fill(count,col->size());
