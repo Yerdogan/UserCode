@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 mixingFiles = cms.untracked.vstring() 
 mixingFiles.extend( [
-					'file:/user/maanen/MttStudies/CMSSW_5_2_0/src/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_73_1_PLm.root'
+					'file:/user/maanen/MttStudies/bkp/CMSSW_5_2_0/src/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_73_1_PLm.root'
 #   '/store/user/pmaanen/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/fd8a83146ef82936c28a6984b3535afe/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_184_1_FG6.root',
 #       '/store/user/pmaanen/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/fd8a83146ef82936c28a6984b3535afe/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_6_1_6WE.root',
 #       '/store/user/pmaanen/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/fd8a83146ef82936c28a6984b3535afe/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_104_1_jSq.root',
