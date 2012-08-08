@@ -9,7 +9,7 @@ patch $CMSSW_BASE/src/Geometry/CommonDetUnit/interface/GeomDetType.h $CMSSW_BASE
 patch $CMSSW_BASE/src/Geometry/MuonNumbering/interface/MuonSubDetector.h $CMSSW_BASE/src/MTTStudies/Patches/MuonSubDetector_h.patch
 patch $CMSSW_BASE/src/Geometry/MuonNumbering/src/MuonSubDetector.cc $CMSSW_BASE/src/MTTStudies/Patches/MuonSubDetector_cc.patch
 patch $CMSSW_BASE/src/SimG4CMS/Muon/BuildFile.xml $CMSSW_BASE/src/MTTStudies/Patches/simg4cms_muon_BuildFile.patch
-patch $CMSSW_BASE/src/SimG4CMS/Muon/src/module.cc $CMSSW_BASE/src/MTTStudies/Patches/simg4cms_muon_module_cc.patch
+#patch $CMSSW_BASE/src/SimG4CMS/Muon/src/module.cc $CMSSW_BASE/src/MTTStudies/Patches/simg4cms_muon_module_cc.patch
 
 
 
