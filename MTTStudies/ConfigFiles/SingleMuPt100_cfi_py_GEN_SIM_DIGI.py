@@ -22,9 +22,11 @@ process.load('Configuration.StandardSequences.SimIdeal_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-process.load('Geometry.MttCommonData.cmsMttextendedGeom_cfi') 
+process.load('MTTStudies.Geometry.cmsMttextendedGeom_1Layer_cfi') 
 process.load('Geometry.TrackerNumberingBuilder.trackerNumberingGeometry_cfi')
-process.load("Geometry.MTTGeometryBuilder.mttGeometry_cfi")
+process.load("MTTStudies.Geometry.mttGeometry_cfi")
+process.load("MTTStudies.MTTDigiProducer.mttdigitizer_cfi")
+process.muonDigi+=process.simMuonMTTDigis
 process.load("Geometry.MuonNumbering.muonNumberingInitialization_cfi")
 process.g4SimHits.MTTSD=cms.PSet(EnergyThresholdForHistoryInGeV = cms.double(0.0005),EnergyThresholdForPersistencyInGeV = cms.double(0.001))
 #modify tracking particles to include mtt
@@ -42,7 +44,7 @@ process.RandomNumberGeneratorService.simMuonMTTDigis = cms.PSet(
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(100)
 )
-#process.Tracer = cms.Service("Tracer")
+process.Tracer = cms.Service("Tracer")
 # Input source
 process.source = cms.Source("EmptySource")
 
@@ -75,7 +77,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
 )
 
 # Additional output definition
-
+process.RAWSIMEventContent.outputCommands.append('keep *_simMuonMTTDigis_*_*')
 # Other statements
 
 process.GlobalTag.globaltag = 'MC_52_V4A::All'

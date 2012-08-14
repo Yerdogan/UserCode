@@ -1,4 +1,4 @@
-#include "MTTStudies/MTTDigiProducer/interface/MTTDigi.h"
+#include "MTTStudies/MTTDigi/interface/MTTDigi.h"
 #include <iostream>
 
 MTTDigi::MTTDigi (int tile) :

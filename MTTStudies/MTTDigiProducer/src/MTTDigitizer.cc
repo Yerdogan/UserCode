@@ -10,8 +10,8 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 
 #include "DataFormats/Common/interface/DetSetVector.h"
-#include "MTTStudies/MTTDigiProducer/interface/MTTDigiSimLink.h"
-#include "MTTStudies/MTTDigiProducer/interface/MTTDigiCollection.h"
+#include "MTTStudies/MTTDigi/interface/MTTDigiSimLink.h"
+#include "MTTStudies/MTTDigi/interface/MTTDigiCollection.h"
 
 #include "MTTStudies/Geometry/interface/MTTGeometry.h"
 #include "MTTStudies/Geometry/interface/MTTTile.h"
