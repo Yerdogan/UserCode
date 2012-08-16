@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Tue Jul 24 16:18:23 CEST 2012
-// $Id: DigiMap.cc,v 1.1 2012/08/10 15:44:52 pmaanen Exp $
+// $Id: DigiMap.cc,v 1.2 2012/08/14 14:52:57 pmaanen Exp $
 //
 //
 
@@ -113,27 +113,19 @@ DigiMap::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	//TODO: find out name for digis
 	iEvent.getByLabel("simMuonMTTDigis",digis);
 	MTTDigiCollection::DigiRangeIterator itr;
-	std::cout<<"got Digis"<<std::endl;
+	//	std::cout<<"got Digis"<<std::endl;
 	int numDigis=0;
 	std::vector<MTTTile*> mttTiles = theGeometry->tiles();
 	//std::vector<MTTDigi>::const_iterator itr;
 	for (std::vector<MTTTile*>::iterator r = mttTiles.begin(); r != mttTiles.end(); r++) {
 		MTTTileId iTile((*r)->id());
-                        std::cout<<"I am in wheel: "<<iTile.wheel()<<" sector: "<<iTile.sector()<<std::endl;
-		if(digis->get(iTile).first!=digis->get(iTile).second)
-			std::cout<<"Digis in Wheel: "<<iTile.wheel()<<" Sector: "<<iTile.sector()<<std::endl;
-	}
-
-	for(itr=digis->begin();itr!=digis->end();++itr){
-		numDigis=0;
-		MTTTileId Tile((*itr).first.rawId());
-		std::cout<<"Wheel: "<<Tile.wheel()<<" Sector: "<<Tile.sector()<<" Count: "<<numDigis<<std::endl;
-		for ( std::vector<MTTDigi>::const_iterator digiIter = (*itr).second.first;
-				digiIter != (*itr).second.second; digiIter++) numDigis++ ;
-		HitMap[(*itr).first.rawId()]=numDigis;
-	}
-	for(std::map<uint32_t,uint32_t>::iterator iTile=HitMap.begin();iTile!=HitMap.end();++iTile){
-		//theHistoMap["DigiRate"]->Fill((double)Tile.wheel(),(double)Tile.sector(),(double)iTile->second);
+                //        std::cout<<"I am in wheel: "<<iTile.wheel()<<" sector: "<<iTile.sector()<<std::endl;
+		// if(digis->get(iTile).first!=digis->get(iTile).second)
+		// 	std::cout<<"Digis in Wheel: "<<iTile.wheel()<<" Sector: "<<iTile.sector()<<std::endl;
+			for(MTTDigiCollection::const_iterator itr=digis->get(iTile).first;itr!=digis->get(iTile).second;++itr){
+			  std::cout<<iTile.wheel()<<"/"<<iTile.sector()<<std::endl;
+		  	theHistoMap["DigiRate"]->Fill(iTile.wheel(),iTile.sector());
+		}
 	}
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
 	Handle<ExampleData> pIn;
@@ -157,7 +149,7 @@ DigiMap::beginJob()
 void 
 DigiMap::endJob() 
 {
-theHistoMap["DigiRate"]->Scale(1/totalNumberofEvents*1/25*1/(1e-9));
+  theHistoMap["DigiRate"]->Scale(1/(1.0*totalNumberofEvents)*1/25.0*1/(1e-9));
 theHistoMap["DigiRate"]->SetTitle("DIGI-Rate in Hz");
 theHistoMap["DigiRate"]->GetXaxis()->SetTitle("Wheel");
 theHistoMap["DigiRate"]->GetYaxis()->SetTitle("Sector");

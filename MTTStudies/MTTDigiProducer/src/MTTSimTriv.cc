@@ -30,7 +30,7 @@ MTTSimTriv::~MTTSimTriv() {
 
 void MTTSimTriv::simulate(const MTTTile* tile, const edm::PSimHitContainer& mttHits) {
 
-	/*
+
 	theMttDigiSimLinks.clear();
 	theDetectorHitMap.clear();
 	theMttDigiSimLinks = MTTDigiSimLinks(tile->id().rawId());
@@ -42,5 +42,4 @@ void MTTSimTriv::simulate(const MTTTile* tile, const edm::PSimHitContainer& mttH
 		theDetectorHitMap.insert(DetectorHitMap::value_type(digi, &(*_hit)));
 		tiles.insert(digi);
 	}
-	*/
 }

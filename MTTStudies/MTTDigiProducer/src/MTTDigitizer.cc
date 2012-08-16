@@ -160,20 +160,18 @@ void MTTDigitizer::beginLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup c
 void MTTDigitizer::endLuminosityBlock(edm::LuminosityBlock&, edm::EventSetup const&) {
 }
 void MTTDigitizer::simulate(const MTTTile* tile, const edm::PSimHitContainer& mttHits) {
-	/*
-	 for (edm::PSimHitContainer::const_iterator _hit = mttHits.begin();
-	 _hit != mttHits.end(); ++_hit){
-	 if (true){
-	 int time_hit = _hit->timeOfFlight();
-	 std::pair<int, int> digi(topology.channel(entr)+1,
-	 time_hit);
-
-	 theDetectorHitMap.insert(DetectorHitMap::value_type(digi,&(*_hit)));
-	 strips.insert(digi);
-	 }
-
-	 }
-	 */
+//	 for (edm::PSimHitContainer::const_iterator _hit = mttHits.begin();
+//	 _hit != mttHits.end(); ++_hit){
+//	 if (true){
+//	 int time_hit = _hit->timeOfFlight();
+//	 std::pair<int, int> digi(topology.channel(entr)+1,
+//	 time_hit);
+//
+//	 theDetectorHitMap.insert(DetectorHitMap::value_type(digi,&(*_hit)));
+//	 strips.insert(digi);
+//	 }
+//
+//	 }
 }
 
 void MTTDigitizer::doAction(MixCollection<PSimHit> & simHits, MTTDigiCollection & mttDigis,
@@ -199,7 +197,7 @@ void MTTDigitizer::doAction(MixCollection<PSimHit> & simHits, MTTDigiCollection 
 		//    LogDebug("RPCDigitizer") << "RPCDigitizer: found " << rollSimHits.size()
 		//			     <<" hit(s) in the rpc roll";
 
-		this->simulate(*r, tileSimHits);
+		theMTTSim->simulate(*r, tileSimHits);
 		//this->simulateNoise(*r);
 		theMTTSim->fillDigis((*r)->id(), mttDigis);
 		mttDigiSimLink.insert(theMTTSim->mttDigiSimLinks());
