@@ -53,13 +53,13 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    version = cms.untracked.string('$Revision: 1.372.2.3 $'),
+    version = cms.untracked.string('$Revision: 1.1 $'),
     annotation = cms.untracked.string('SingleNuE10_cfi.py nevts:100'),
     name = cms.untracked.string('PyReleaseValidation')
 )
 
 # Output definition
-
+process.FEVTDEBUGEventContent.outputCommands.append('keep *_simMuonMTTDigis_*_*')
 process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
@@ -110,7 +110,7 @@ process.pdigi.remove(process.simCastorDigis)
 process.pdigi.remove(process.simMuonCSCDigis)
 process.pdigi.remove(process.simMuonDTDigis)
 process.pdigi.remove(process.simMuonRPCDigis)
-#process.pdigi.remove(process.mergedtruth)
+process.pdigi.remove(process.mergedtruth)
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
 process.simulation_step = cms.Path(process.psim)

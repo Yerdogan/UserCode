@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("DUMP")
-process.load("Geometry.MttCommonData.cmsMttextendedGeom_1Layer_cfi")
+process.load('MTTStudies.Geometry.cmsMttextendedGeom_1Layer_cfi')
 
 process.source = cms.Source("EmptySource")
 

@@ -8,7 +8,7 @@ process.load('MTTStudies.Geometry.cmsMttextendedGeom_1Layer_cfi')
 process.load("MTTStudies.Geometry.mttGeometry_cfi")
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.TFileService = cms.Service("TFileService", 
-      fileName = cms.string("histo.root"),
+      fileName = cms.string("ZB_PUZZZ_digimap_histos.root"),
       closeFileFast = cms.untracked.bool(True)
   )
 process.source = cms.Source("PoolSource",

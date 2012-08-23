@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Tue Jul 24 16:18:23 CEST 2012
-// $Id: DigiMap.cc,v 1.2 2012/08/14 14:52:57 pmaanen Exp $
+// $Id: DigiMap.cc,v 1.3 2012/08/16 15:49:20 pmaanen Exp $
 //
 //
 
@@ -28,7 +28,7 @@
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
@@ -64,6 +64,7 @@ class DigiMap : public edm::EDAnalyzer {
 
       // ----------member data ---------------------------
       std::map<std::string,TH2*> theHistoMap;
+      std::map<std::string,TH1*> the1dHistoMap;
       uint32_t	totalNumberofEvents;
   std::map<uint32_t,uint32_t> HitMap;
  const MTTGeometry* theGeometry;
@@ -87,6 +88,12 @@ DigiMap::DigiMap(const edm::ParameterSet& iConfig)
    //now do what ever initialization is needed
 	  edm::Service<TFileService> fs;
 	  theHistoMap["DigiRate"]=fs->make<TH2F>("digirate","Rate of DIGIs",5,-2.5,2.5,12,0.5,12.5);
+	  theHistoMap["nDigiVsnPU_wm2"]=fs->make<TH2F>("nDIGIvsnPU","Number of Digis vs Number of PU Vertices",61,-0.5,60.5,301,-0.5,300.5);
+	  theHistoMap["nDigiVsnPU_wm1"]=fs->make<TH2F>("nDIGIvsnPU","Number of Digis vs Number of PU Vertices",61,-0.5,60.5,301,-0.5,300.5);
+	  theHistoMap["nDigiVsnPU_w0"]=fs->make<TH2F>("nDIGIvsnPU","Number of Digis vs Number of PU Vertices",61,-0.5,60.5,301,-0.5,300.5);
+	  theHistoMap["nDigiVsnPU_wp1"]=fs->make<TH2F>("nDIGIvsnPU","Number of Digis vs Number of PU Vertices",61,-0.5,60.5,301,-0.5,300.5);
+	  theHistoMap["nDigiVsnPU_wp2"]=fs->make<TH2F>("nDIGIvsnPU","Number of Digis vs Number of PU Vertices",61,-0.5,60.5,301,-0.5,300.5);
+	  the1dHistoMap["nDigi"]=fs->make<TH1F>("nDIGI","Number of Digis",61,-0.5,60.5);
 }
 
 
@@ -110,23 +117,39 @@ DigiMap::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 	using namespace edm;
 	totalNumberofEvents++;
 	edm::Handle<MTTDigiCollection> digis;
+	Handle<std::vector< PileupSummaryInfo > >  PuInfo;
+	iEvent.getByLabel(edm::InputTag("addPileupInfo"), PuInfo);
+	std::vector<PileupSummaryInfo>::const_iterator PVI;
+
+	for(PVI = PuInfo->begin(); PVI != PuInfo->end(); ++PVI) {
+		if(PVI->getBunchCrossing() == 0)
+		break;
+		}
+
+
 	//TODO: find out name for digis
 	iEvent.getByLabel("simMuonMTTDigis",digis);
 	MTTDigiCollection::DigiRangeIterator itr;
 	//	std::cout<<"got Digis"<<std::endl;
-	int numDigis=0;
+	int numDigis[5]={0,0,0,0,0};
+	int numDigisPerTile=0;
 	std::vector<MTTTile*> mttTiles = theGeometry->tiles();
-	//std::vector<MTTDigi>::const_iterator itr;
 	for (std::vector<MTTTile*>::iterator r = mttTiles.begin(); r != mttTiles.end(); r++) {
 		MTTTileId iTile((*r)->id());
-                //        std::cout<<"I am in wheel: "<<iTile.wheel()<<" sector: "<<iTile.sector()<<std::endl;
-		// if(digis->get(iTile).first!=digis->get(iTile).second)
-		// 	std::cout<<"Digis in Wheel: "<<iTile.wheel()<<" Sector: "<<iTile.sector()<<std::endl;
+		numDigisPerTile=0;
 			for(MTTDigiCollection::const_iterator itr=digis->get(iTile).first;itr!=digis->get(iTile).second;++itr){
-			  std::cout<<iTile.wheel()<<"/"<<iTile.sector()<<std::endl;
+				numDigisPerTile++;
 		  	theHistoMap["DigiRate"]->Fill(iTile.wheel(),iTile.sector());
+		  	numDigis[iTile.wheel()+2]++;
 		}
+		the1dHistoMap["nDigi"]->Fill(numDigisPerTile);
 	}
+	  theHistoMap["nDigiVsnPU_wm2"]->Fill(numDigis[0],PVI->getPU_NumInteractions());
+	  theHistoMap["nDigiVsnPU_wm1"]->Fill(numDigis[1],PVI->getPU_NumInteractions());
+	  theHistoMap["nDigiVsnPU_w0"]->Fill(numDigis[2],PVI->getPU_NumInteractions());
+	  theHistoMap["nDigiVsnPU_wp1"]->Fill(numDigis[3],PVI->getPU_NumInteractions());
+	  theHistoMap["nDigiVsnPU_wp2"]->Fill(numDigis[4],PVI->getPU_NumInteractions());
+
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
 	Handle<ExampleData> pIn;
 	iEvent.getByLabel("example",pIn);
@@ -149,10 +172,30 @@ DigiMap::beginJob()
 void 
 DigiMap::endJob() 
 {
-  theHistoMap["DigiRate"]->Scale(1/(1.0*totalNumberofEvents)*1/25.0*1/(1e-9));
+theHistoMap["DigiRate"]->Scale(1/(1.0*totalNumberofEvents)*1/25.0*1/(1e-9));
 theHistoMap["DigiRate"]->SetTitle("DIGI-Rate in Hz");
 theHistoMap["DigiRate"]->GetXaxis()->SetTitle("Wheel");
 theHistoMap["DigiRate"]->GetYaxis()->SetTitle("Sector");
+
+theHistoMap["nDigiVsnPU_wm2"]->GetXaxis()->SetTitle("Number of digis");
+theHistoMap["nDigiVsnPU_wm2"]->GetXaxis()->SetTitle("Number of PU vertices");
+theHistoMap["nDigiVsnPU_wm2"]->SetTitle("Wheel -2");
+
+theHistoMap["nDigiVsnPU_wm1"]->GetXaxis()->SetTitle("Number of digis");
+theHistoMap["nDigiVsnPU_wm1"]->GetXaxis()->SetTitle("Number of PU vertices");
+theHistoMap["nDigiVsnPU_wm1"]->SetTitle("Wheel -1");
+
+theHistoMap["nDigiVsnPU_w0"]->GetXaxis()->SetTitle("Number of digis");
+theHistoMap["nDigiVsnPU_w0"]->GetXaxis()->SetTitle("Number of PU vertices");
+theHistoMap["nDigiVsnPU_w0"]->SetTitle("Wheel 0");
+
+theHistoMap["nDigiVsnPU_wp1"]->GetXaxis()->SetTitle("Number of digis");
+theHistoMap["nDigiVsnPU_wp1"]->GetXaxis()->SetTitle("Number of PU vertices");
+theHistoMap["nDigiVsnPU_wp1"]->SetTitle("Wheel 1");
+
+theHistoMap["nDigiVsnPU_wp2"]->GetXaxis()->SetTitle("Number of digis");
+theHistoMap["nDigiVsnPU_wp2"]->GetXaxis()->SetTitle("Number of PU vertices");
+theHistoMap["nDigiVsnPU_wp2"]->SetTitle("Wheel 2");
 }
 
 // ------------ method called when starting to processes a run  ------------

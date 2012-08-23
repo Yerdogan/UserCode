@@ -4,6 +4,7 @@
 <use name="MTTStudies/Geometry"/>
 <use   name="Mixing/Base"/>
 <use   name="SimDataFormats/CaloHit"/>
+<use   name="SimDataFormats/PileupSummaryInfo"/>
 <use   name="SimDataFormats/CrossingFrame"/>
 <use   name="SimDataFormats/Track"/>
 <use   name="SimDataFormats/TrackingHit"/>
