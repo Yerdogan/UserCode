@@ -204,7 +204,58 @@ mixingFiles.extend( [
         'dcap://grid-dcap.physik.rwth-aachen.de/pnfs/physik.rwth-aachen.de/cms/store/user/pmaanen/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom-v1/fd8a83146ef82936c28a6984b3535afe/MinBias_TuneZ2star_14TeV_pythia6_cff_py_GEN_SIM-Mtt1Layer1TileGeom_70_1_LAA.root'
 	] );
 
-from SimGeneral.MixingModule.mixObjects_cfi import *
+mixSimHits = cms.PSet(
+    input = cms.VInputTag(),
+    type = cms.string('PSimHit'),
+    subdets = cms.vstring(),
+    crossingFrames = cms.untracked.vstring(),
+    #crossingFrames = cms.untracked.vstring(
+    #    'BSCHits',
+    #    'FP420SI',
+    #    'MuonCSCHits',
+    #    'MuonDTHits',
+    #    'MuonRPCHits',
+    #    'TotemHitsRP',
+    #    'TotemHitsT1',
+    #    'TotemHitsT2Gem')
+)
+mixCaloHits = cms.PSet(
+    input = cms.VInputTag(),
+    type = cms.string('PCaloHit'),
+    subdets = cms.vstring(),
+    crossingFrames = cms.untracked.vstring()
+)
+mixSimTracks = cms.PSet(
+    #makeCrossingFrame = cms.untracked.bool(False),
+    makeCrossingFrame = cms.untracked.bool(True),
+    input = cms.VInputTag(cms.InputTag("g4SimHits")),
+    type = cms.string('SimTrack')
+)
+mixSimVertices = cms.PSet(
+    #makeCrossingFrame = cms.untracked.bool(False),
+    makeCrossingFrame = cms.untracked.bool(True),
+    input = cms.VInputTag(cms.InputTag("g4SimHits")),
+    type = cms.string('SimVertex')
+)
+mixHepMCProducts = cms.PSet(
+    #makeCrossingFrame = cms.untracked.bool(False),
+    makeCrossingFrame = cms.untracked.bool(True),
+    input = cms.VInputTag(cms.InputTag("generator")),
+    type = cms.string('HepMCProduct')
+)
+
+mixPCFSimHits = cms.PSet(
+    input = cms.VInputTag(),
+    type = cms.string('PSimHitPCrossingFrame'),
+    subdets = cms.vstring()
+)
+
+mixPCFCaloHits = cms.PSet(
+    input = cms.VInputTag(),
+    type = cms.string('PCaloHitPCrossingFrame'),
+    subdets = cms.vstring()
+)
+
 mix = cms.EDProducer("MixingModule",
     LabelPlayback = cms.string(''),
     maxBunch = cms.int32(3),
