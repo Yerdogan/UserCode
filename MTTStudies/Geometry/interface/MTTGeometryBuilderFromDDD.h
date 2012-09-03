@@ -48,7 +48,7 @@ private:
 	    ///create the tile
 	    MTTTile* buildTile(DDFilteredView& fv,
 	                        MTTStrip* strip,
-	                        const MuonDDDConstants& muonConstants) const;
+	                        const MuonDDDConstants& muonConstants,int TiCounter) const;
 
 	    /// get parameter also for boolean solid.
 	    std::vector<double> extractParameters(DDFilteredView& fv) const ;

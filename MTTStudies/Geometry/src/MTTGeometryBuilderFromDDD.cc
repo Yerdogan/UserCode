@@ -102,7 +102,7 @@ void MTTGeometryBuilderFromDDD::buildGeometry(boost::shared_ptr<MTTGeometry> the
 				while (doTi) {
 					fv.firstChild();
 					TiCounter++;
-					MTTTile* tile = buildTile(fv, strip, muonConstants);
+					MTTTile* tile = buildTile(fv, strip, muonConstants, TiCounter);
 					theGeometry->add(tile);
 					fv.print();
 					//fv.parent();
@@ -258,12 +258,14 @@ MTTStrip *MTTGeometryBuilderFromDDD::buildStrip(DDFilteredView & fv, MTTLayer *l
 }
 
 
-MTTTile *MTTGeometryBuilderFromDDD::buildTile(DDFilteredView & fv, MTTStrip *strip, const MuonDDDConstants & muonConstants) const
+MTTTile *MTTGeometryBuilderFromDDD::buildTile(DDFilteredView & fv, MTTStrip *strip, const MuonDDDConstants & muonConstants,int TiCounter) const
 {
 	  MuonDDDNumbering mdddnum(muonConstants);
 	  MTTNumberingScheme mttnum(muonConstants);
-	  int rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
-	  MTTTileId TileId(rawid);
+	  uint32_t rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
+	  MTTStripId StrId(strip->id());
+	  MTTTileId TileId(strip->id(),TiCounter);
+	 // std::cout << "--Wheel: "<<TileId.wheel()<<" Sector: "<<TileId.sector()<<" Layer: "<<TileId.layer()<<" Strip: "<<TileId.strip()<<" Tile: "<<TiCounter<<"--"<<std::endl;
 
 	  // Layer specific parameter (size)
 	  std::vector<double> par = extractParameters(fv);

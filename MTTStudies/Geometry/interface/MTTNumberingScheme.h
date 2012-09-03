@@ -9,7 +9,7 @@
  */
 
 #include "Geometry/MuonNumbering/interface/MuonNumberingScheme.h"
-
+#include <stdint.h>
 class MuonBaseNumber;
 class MuBarDetBuilder;
 class DDCompactView;
@@ -24,7 +24,7 @@ class MTTNumberingScheme : public MuonNumberingScheme {
   
   virtual int baseNumberToUnitNumber(const MuonBaseNumber num);
 
-  int getDetId(const MuonBaseNumber num) const;
+ uint32_t getDetId(const MuonBaseNumber num) const;
   
  private:
 

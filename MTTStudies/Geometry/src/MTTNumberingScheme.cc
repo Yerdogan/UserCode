@@ -51,7 +51,7 @@ int MTTNumberingScheme::baseNumberToUnitNumber(const MuonBaseNumber num){
   return getDetId(num);
 }
 
-int MTTNumberingScheme::getDetId(const MuonBaseNumber num) const {
+uint32_t MTTNumberingScheme::getDetId(const MuonBaseNumber num) const {
   
   int tile_id=0;
   int strip_id=0;
@@ -68,7 +68,6 @@ int MTTNumberingScheme::getDetId(const MuonBaseNumber num) const {
          sector_id,
          station_id,
          wheel_id);
-    
   MTTTileId id(wheel_id,station_id,sector_id,layer_id,strip_id,tile_id);
   
 #ifdef LOCAL_DEBUG
@@ -85,8 +84,6 @@ void MTTNumberingScheme::decode(const MuonBaseNumber& num,
                                        int& sector_id,
                                        int& station_id,
                                        int& wheel_id) const {
-
-//cout << "wat tust du?" << endl;
 
   for (int level=1;level<=num.getLevels();level++) {
 

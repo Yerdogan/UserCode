@@ -4,7 +4,7 @@
 /** \class MTTPanelId
  *  DetUnit identifier for MTT Panels.
  *  
- *  $Date: 2012/07/19 14:18:01 $
+ *  $Date: 2012/07/23 12:48:43 $
  *  $Revision: 1.1 $
  *  \author Paul Maanen
  */
@@ -57,9 +57,6 @@ public:
 
   /// Return the sector number. Sectors are numbered from 1 to 12,
   /// starting at phi=0 and increasing with phi.
-  /// In station 4, where the top and bottom setcors are made of two Panels,
-  /// two additional sector numbers are used, 13 (after sector 4, top)
-  /// and 14 (after sector 10, bottom).
   int sector() const {
     return ((id_>>sectorStartBit_)& sectorMask_);
   }
@@ -87,7 +84,7 @@ public:
   static const int maxStripId=18  ;
   /// lowest tile id (numbering starts from 1). 0 indicates a full layer
   static const int minTileId=       0;
-  /// highest wire id (Panels have 48 to 96 wires)
+  /// highest tile id
   static const int maxTileId=      25;
  
 
