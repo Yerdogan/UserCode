@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Mon Aug 27 15:55:47 CEST 2012
-// $Id$
+// $Id: L1TrackMatcher.cc,v 1.1 2012/08/27 14:42:00 pmaanen Exp $
 //
 //
 
@@ -28,7 +28,14 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
+#include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
+
+#include "Geometry/Records/interface/MuonGeometryRecord.h"
+
+#include "MTTStudies/Geometry/interface/MTTGeometry.h"
+
+#include "TrackFinder.h"
 //
 // class declaration
 //
@@ -52,6 +59,7 @@ class L1TrackMatcher : public edm::EDAnalyzer {
       virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
 
       // ----------member data ---------------------------
+      TrackFinder theTrackFinder;
 };
 
 //
@@ -66,10 +74,7 @@ class L1TrackMatcher : public edm::EDAnalyzer {
 // constructors and destructor
 //
 L1TrackMatcher::L1TrackMatcher(const edm::ParameterSet& iConfig)
-
 {
-   //now do what ever initialization is needed
-
 }
 
 
@@ -91,8 +96,39 @@ void
 L1TrackMatcher::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    using namespace edm;
+   std::vector<MTTTiles*> TilesWithDigi;
+   edm::Handle<MTTDigiCollection> digis;
+   iEvent.getByLabel("simMuonMTTDigis",digis);
+	MTTDigiCollection::DigiRangeIterator itr;
 
+	edm::Handle<cmsUpgrades::L1Track_PixelDigi_Collection> l1trackHandlePD;
+	edm::InputTag l1tracksPixelDigisTag = config.getParameter<edm::InputTag>("L1TracksFromPixelDigis");
+	e.getByLabel(l1tracksPixelDigisTag, l1trackHandlePD);
 
+	std::vector<MTTTile*> mttTiles = theGeometry->tiles();
+	for (std::vector<MTTTile*>::iterator r = mttTiles.begin(); r != mttTiles.end(); r++) {
+		MTTTileId iTile((*r)->id());
+		for(MTTDigiCollection::const_iterator itr=digis->get(iTile).first;itr!=digis->get(iTile).second;++itr){
+			TilesWithDigi.push_back(*r);
+		}
+	}
+	theTrackFinder.setTiles(&TilesWithDigi);
+
+	/// Go on only if there are L1Tracks from Pixel Digis
+	if ( l1trackHandlePD->size() > 0 ) {
+		/// Loop over L1Tracks
+		L1Track_PixelDigi_Collection::const_iterator iterL1Track;
+		for ( iterL1Track = l1trackHandlePD->begin();  iterL1Track != l1trackHandlePD->end();  ++iterL1Track ) {
+
+			/// Select only good L1Tracks
+			if (!iterL1Track->isGenuine()) continue;
+			/// Get only L1Tracks which are in Muon Barrel Region
+			if (abs(iterL1Track->getMomentum.eta())>1.29) continue;
+
+			uint32_t tileid=theTrackFinder.findCrossing(iterL1Track->getMomentum(),iterL1Track->getVertex());
+			if(tileid)
+				std::cout << MTTTileId(uint32_t) << std::endl;
+		}
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
    Handle<ExampleData> pIn;
@@ -120,8 +156,12 @@ L1TrackMatcher::endJob()
 
 // ------------ method called when starting to processes a run  ------------
 void 
-L1TrackMatcher::beginRun(edm::Run const&, edm::EventSetup const&)
+L1TrackMatcher::beginRun(edm::Run const&, edm::EventSetup const& eventSetup)
 {
+	edm::ESHandle<MTTGeometry> hGeom;
+	eventSetup.get<MuonGeometryRecord> ().get(hGeom);
+	theTrackFinder.setGeometry(&*hGeom);
+	//theTrackFinder.fillMap();
 }
 
 // ------------ method called when ending the processing of a run  ------------
