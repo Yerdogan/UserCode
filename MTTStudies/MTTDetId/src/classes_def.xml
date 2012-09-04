@@ -1,0 +1,6 @@
+<lcgdict>
+  <class name="MTTPanelId"/>
+  <class name="MTTLayerId"/>
+  <class name="MTTStripId"/>
+  <class name="MTTTileId"/>
+</lcgdict>
