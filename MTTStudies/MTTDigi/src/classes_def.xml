@@ -1,0 +1,16 @@
+<lcgdict>
+<class name="MTTDigi"/>
+<class name="MTTDigiSimLink"/>
+<class name="std::vector<MTTDigi>"/>
+<class name="std::vector<MTTDigiSimLink>"/>
+<class name="std::vector<std::vector<MTTDigi> >"/>
+<class name="std::vector<edm::DetSet<MTTDigiSimLink> >"/>
+<class name="MTTDigiCollection"/>
+<class name="std::map<MTTTileId,std::vector<MTTDigi> >"/>
+<class name="MuonDigiCollection<MTTTileId,MTTDigi>"/> 
+<class name="edm::Wrapper<std::map <std::pair<int,int>, int> >"/>
+<class name="edm::Wrapper<MuonDigiCollection<MTTTileId,MTTDigi> >"/>
+<class name="edm::Wrapper<edm::DetSetVector<MTTDigiSimLink> >"/>
+<class name="edm::DetSetVector<MTTDigiSimLink>"/>
+<class name="edm::DetSet<MTTDigiSimLink>"/>
+</lcgdict>
