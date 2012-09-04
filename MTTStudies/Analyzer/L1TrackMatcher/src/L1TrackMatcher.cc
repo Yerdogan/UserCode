@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Mon Aug 27 15:55:47 CEST 2012
-// $Id: L1TrackMatcher.cc,v 1.1 2012/08/27 14:42:00 pmaanen Exp $
+// $Id: L1TrackMatcher.cc,v 1.2 2012/09/03 14:27:45 pmaanen Exp $
 //
 //
 
@@ -34,6 +34,12 @@
 #include "Geometry/Records/interface/MuonGeometryRecord.h"
 
 #include "MTTStudies/Geometry/interface/MTTGeometry.h"
+#include "MTTStudies/MTTDigi/interface/MTTDigiCollection.h"
+#include "SimDataFormats/SLHC/interface/StackedTrackerTypes.h"
+#include "SimDataFormats/SLHC/interface/L1TkTrack.h"
+#include "SimDataFormats/SLHC/src/L1TkTrack.cc
+#include "SimDataFormats/SLHC/src/classes.h"
+#include "SimDataFormats/SLHC/src/classes_def.xml"
 
 #include "TrackFinder.h"
 //
@@ -96,7 +102,7 @@ void
 L1TrackMatcher::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    using namespace edm;
-   std::vector<MTTTiles*> TilesWithDigi;
+   std::vector<MTTTile*> TilesWithDigi;
    edm::Handle<MTTDigiCollection> digis;
    iEvent.getByLabel("simMuonMTTDigis",digis);
 	MTTDigiCollection::DigiRangeIterator itr;

@@ -21,6 +21,7 @@
 #include "DataFormats/GeometryVector/interface/GlobalPoint.h"
 #include "DataFormats/GeometryVector/interface/GlobalVector.h"
 class MTTGeometry;
+class MTTTile;
 //class cmsUpgrades::L1TkTrack;
 
 class TrackFinder {
@@ -30,7 +31,7 @@ class TrackFinder {
 	std::map<int, std::pair<float,float> > phiSectorMap;
 //	std::map<uint32_t, std::vector<cmsUpgrades::L1TkTrack*> > trackMap;
 	const MTTGeometry* theGeometry;
-	const std::vector<MTTTiles*>* TilesWithDigi;
+	const std::vector<MTTTile*>* TilesWithDigi;
 
 	//
 	int getPhiSegment(float phi);
@@ -46,7 +47,7 @@ public:
 	virtual ~TrackFinder();
 	void fillMap();
 	void setGeometry(const MTTGeometry* mttGeometry);
-	void setTiles(const std::vector<MTTTiles*>* TilesWithDigi);
+	void setTiles(const std::vector<MTTTile*>* TilesWithDigi);
 
 	uint32_t findCrossing(const GlobalVector& mom,const GlobalPoint& vtx);
 };
