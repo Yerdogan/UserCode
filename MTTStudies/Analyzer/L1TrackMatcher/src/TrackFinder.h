@@ -47,7 +47,7 @@ public:
 	virtual ~TrackFinder();
 	void fillMap();
 	void setGeometry(const MTTGeometry* mttGeometry);
-	void setTiles(const std::vector<MTTTile*>* TilesWithDigi);
+	void setTiles(const std::vector<MTTTile*>* tiles);
 
 	uint32_t findCrossing(const GlobalVector& mom,const GlobalPoint& vtx);
 };

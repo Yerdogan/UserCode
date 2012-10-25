@@ -88,6 +88,10 @@ void TrackFinder::setGeometry(const MTTGeometry* mttGeometry) {
 	theGeometry=mttGeometry;
 }
 
+void TrackFinder::setTiles(const std::vector<MTTTile*>* tiles) {
+	TilesWithDigi=tiles;
+}
+
 
 int findPhiSegment(float phi) {
 
