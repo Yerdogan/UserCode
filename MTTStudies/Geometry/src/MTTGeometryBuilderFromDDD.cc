@@ -51,8 +51,8 @@ RCPPlane MTTGeometryBuilderFromDDD::plane(const DDFilteredView & fv, const Bound
 	// 	    << z.X() << ", " << z.Y() << ", " << z.Z() << std::endl;
 
 	  Surface::RotationType rotResult(float(x.X()),float(x.Y()),float(x.Z()),
-	                                  float(y.X()),float(y.Y()),float(y.Z()),
-	                                  float(z.X()),float(z.Y()),float(z.Z()));
+	                                  float(z.X()),float(z.Y()),float(z.Z()),
+	                                  float(y.X()),float(y.Y()),float(y.Z()));
 
 	//   std::cout << "rotation by its own operator: "<< tmp << std::endl;
 	//   DD3Vector tx, ty,tz;
@@ -62,7 +62,7 @@ RCPPlane MTTGeometryBuilderFromDDD::plane(const DDFilteredView & fv, const Bound
 	// 	    << ty.X() << ", " << ty.Y() << ", " << ty.Z() << std::endl
 	// 	    << tz.X() << ", " << tz.Y() << ", " << tz.Z() << std::endl;
 
-	  return RCPPlane( new BoundPlane( posResult, rotResult, bounds));
+	  return RCPPlane( BoundPlane::build( posResult, rotResult, bounds));
 }
 
 void MTTGeometryBuilderFromDDD::buildGeometry(boost::shared_ptr<MTTGeometry> theGeometry, DDFilteredView & fv, const MuonDDDConstants & muonConstants) const
@@ -100,16 +100,10 @@ void MTTGeometryBuilderFromDDD::buildGeometry(boost::shared_ptr<MTTGeometry> the
 				bool doTi = fv.firstChild();
 				int TiCounter = 0;
 				while (doTi) {
-					fv.firstChild();
 					TiCounter++;
-					MTTTile* tile = buildTile(fv, strip, muonConstants, TiCounter);
+					MTTTile* tile = buildTile(fv, strip, muonConstants);
 					theGeometry->add(tile);
-					fv.print();
-					//fv.parent();
-
-					fv.parent();
 					doTi = fv.nextSibling();
-					fv.print();
 				} //Tiles
 				fv.parent();
 				doStr = fv.nextSibling(); // go to next Strip
@@ -173,7 +167,7 @@ MTTPanel *MTTGeometryBuilderFromDDD::buildPanel(DDFilteredView & fv, const MuonD
 {
 	  MuonDDDNumbering mdddnum (muonConstants);
 	  MTTNumberingScheme mttnum (muonConstants);
-	  int rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
+	  uint32_t rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
 	  MTTPanelId detId(rawid);
 
 	  // Chamber specific parameter (size)
@@ -181,8 +175,8 @@ MTTPanel *MTTGeometryBuilderFromDDD::buildPanel(DDFilteredView & fv, const MuonD
 	  std::vector<double> par = extractParameters(fv);
 
 	  float width = par[0]/cm;     //
-	  float length = par[1]/cm;    //
-	  float thickness = par[2]/cm; //
+	  float length = par[2]/cm;    //
+	  float thickness = par[1]/cm; //
 
 	  ///SL the definition of length, width, thickness depends on the local reference frame of the Det
 	  // width is along local X
@@ -202,15 +196,15 @@ MTTLayer *MTTGeometryBuilderFromDDD::buildLayer(DDFilteredView & fv, MTTPanel *p
 {
 	  MuonDDDNumbering mdddnum(muonConstants);
 	  MTTNumberingScheme dtnum(muonConstants);
-	  int rawid = dtnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
+	  uint32_t rawid = dtnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
 	  MTTLayerId layerId(rawid);
 
 	  // Slayer specific parameter (size)
 	  std::vector<double> par = extractParameters(fv);
 
-	  float width = par[0]/cm;     // r-phi  dimension - changes in different chambers
-	  float length = par[1]/cm;    // z      dimension - constant 126.8 cm
-	  float thickness = par[2]/cm; // radial thickness - almost constant about 20 cm
+	  float width = par[0]/cm;
+	  float length = par[2]/cm;
+	  float thickness = par[1]/cm;
 
 	  RectangularPlaneBounds bound(width, length, thickness);
 
@@ -232,15 +226,15 @@ MTTStrip *MTTGeometryBuilderFromDDD::buildStrip(DDFilteredView & fv, MTTLayer *l
 {
 	  MuonDDDNumbering mdddnum(muonConstants);
 	  MTTNumberingScheme mttnum(muonConstants);
-	  int rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
+	  uint32_t rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
 	  MTTStripId StrId(rawid);
 
 	  // Slayer specific parameter (size)
 	  std::vector<double> par = extractParameters(fv);
 
 	  float width = par[0]/cm;
-	  float length = par[1]/cm;
-	  float thickness = par[2]/cm;
+	  float length = par[2]/cm;
+	  float thickness = par[1]/cm;
 
 	  RectangularPlaneBounds bound(width, length, thickness);
 
@@ -258,43 +252,28 @@ MTTStrip *MTTGeometryBuilderFromDDD::buildStrip(DDFilteredView & fv, MTTLayer *l
 }
 
 
-MTTTile *MTTGeometryBuilderFromDDD::buildTile(DDFilteredView & fv, MTTStrip *strip, const MuonDDDConstants & muonConstants,int TiCounter) const
+MTTTile *MTTGeometryBuilderFromDDD::buildTile(DDFilteredView & fv, MTTStrip *strip, const MuonDDDConstants & muonConstants) const
 {
 	  MuonDDDNumbering mdddnum(muonConstants);
 	  MTTNumberingScheme mttnum(muonConstants);
 	  uint32_t rawid = mttnum.getDetId(mdddnum.geoHistoryToBaseNumber(fv.geoHistory()));
-	  MTTStripId StrId(strip->id());
-	  MTTTileId TileId(strip->id(),TiCounter);
+	  MTTTileId TileId(rawid);
 	 // std::cout << "--Wheel: "<<TileId.wheel()<<" Sector: "<<TileId.sector()<<" Layer: "<<TileId.layer()<<" Strip: "<<TileId.strip()<<" Tile: "<<TiCounter<<"--"<<std::endl;
-
-	  // Layer specific parameter (size)
+	  fv.firstChild();
+	  // Tile specific parameter (size)
 	  std::vector<double> par = extractParameters(fv);
 	  float width = par[0]/cm;
-	  float length = par[1]/cm;
-	  float thickness = par[2]/cm;
+	  float length = par[2]/cm;
+	  float thickness = par[1]/cm;
 
 	  // define Bounds
 	  RectangularPlaneBounds bound(width, length, thickness);
 
 	  RCPPlane surf(plane(fv,bound));
 
-//	  // Loop on wires
-//	  bool doWire = fv.firstChild();
-//	  int WCounter=0;
-//	  int firstWire=fv.copyno();
-//	  par = extractParameters(fv);
-//	  float wireLength = par[1]/cm;
-//	  while (doWire) {
-//	    WCounter++;
-//	    doWire = fv.nextSibling(); // next wire
-//	  }
-//	  //int lastWire=fv.copyno();
-//	  DTTopology topology(firstWire, WCounter, wireLength);
-//
-//	  DTLayerType layerType;
-
 	  MTTTile* tile = new MTTTile(TileId, surf, strip);
 
 	  strip->add(tile);
+	  fv.parent();
 	  return tile;
 }

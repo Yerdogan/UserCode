@@ -162,6 +162,15 @@ void MTTSensitiveDetector::updateHit(G4Step * aStep) {
 				   << mySimHit->entryPoint() << " " << mySimHit->exitPoint();
 }
 
+Local3DPoint MTTSensitiveDetector::toOrcaUnits(Local3DPoint in){
+  return Local3DPoint(in.x()/cm,in.y()/cm,in.z()/cm);
+}
+
+Global3DPoint MTTSensitiveDetector::toOrcaUnits(Global3DPoint in){
+  return Global3DPoint(in.x()/cm,in.y()/cm,in.z()/cm);
+}
+
+
 bool MTTSensitiveDetector::newHit(G4Step * aStep) {
 
   G4Track * theTrack = aStep->GetTrack(); 
@@ -198,8 +207,8 @@ void MTTSensitiveDetector::createHit(G4Step * aStep) {
   G4Track * theTrack  = aStep->GetTrack(); 
   G4VPhysicalVolume * v = aStep->GetPreStepPoint()->GetPhysicalVolume();
 
-  Local3DPoint theEntryPoint = SensitiveDetector::InitialStepPosition(aStep,LocalCoordinates);  
-  Local3DPoint theExitPoint  = SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates); 
+  Local3DPoint theEntryPoint = toOrcaUnits(SensitiveDetector::InitialStepPosition(aStep,LocalCoordinates));
+  Local3DPoint theExitPoint  = toOrcaUnits(SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates));
   
   float thePabs             = aStep->GetPreStepPoint()->GetMomentum().mag()/GeV;
   float theTof              = aStep->GetPreStepPoint()->GetGlobalTime()/nanosecond;

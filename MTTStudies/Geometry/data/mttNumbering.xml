@@ -47,8 +47,8 @@
    <Parameter name="CopyNoOffset" value="1*[super]"/>
   </SpecPar>
   <SpecPar name="MTTTile">
-   <PartSelector path="//Scnt"/>
-   <PartSelector path="//ScntC"/>
+   <PartSelector path="//Tile"/>
+   <PartSelector path="//TileC"/>
    <Parameter name="CopyNoTag" value="[mtt_tile]"/>
    <Parameter name="CopyNoOffset" value="1*[super]"/>
   </SpecPar>

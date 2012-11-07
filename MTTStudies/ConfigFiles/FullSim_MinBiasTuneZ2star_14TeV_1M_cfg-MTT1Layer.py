@@ -8,17 +8,12 @@ process = cms.Process("Fullsim")
 # Number of PU events
 npu = '0'
 # Number of events to process
-nevents = 20000;
+nevents = 500;
 # PID of gun particle
-pid = 12;
 # NOTE there are 4 fired each time
 # AntiParticle is set this way:
-addanti = cms.bool(True)
 # Pt and Eta range of gun particle
-plow  =  0.0
-phigh =  100.0
-elow  = -1.5
-ehigh =  1.5
+
 # Define Algorithms:   Clusters,  Stubs,            Tracklets,         Tracks
 ObjectsFromSimHits = [ "2d" ,     "globalgeometry", "globalgeometry" , "bpphel" ]
 ObjectsFromDigis   = [ "2d" ,     "pixelray",       "globalgeometry" , "bpphel" ]
@@ -50,19 +45,6 @@ theSeedValue = 12445
 if os.getenv('pgun_index'):
    theSeedValue = int(1255+1000*int(os.getenv('pgun_index'))*int(os.getenv('pgun_index')))
 print 'Seed: '+str(theSeedValue)
-
-
-# Build output file name
-guntypename = 'thisisastring'
-if pid == 13:
-	guntypename = 'MuN'
-elif pid == -13:
-	guntypename = 'MuP'
-if addanti == cms.bool(True):
-	guntypename = 'Mu2'
-
-
-
 
 process.load("Configuration.StandardSequences.Generator_cff")
 process.load("Configuration.StandardSequences.Simulation_cff")
@@ -203,7 +185,7 @@ process.mix.mixObjects.mixSH.input.append(cms.InputTag("g4SimHits","MTTHits"))
 
 # Re-set the beamspot scenario here! 
 #process.load("Configuration.StandardSequences.VtxSmeared")
-process.load("IOMC.EventVertexGenerators.VtxSmearedRealistic7TeV2011Collision_cfi")
+process.load("IOMC.EventVertexGenerators.VtxSmearedGauss_cfi")
 process.load("Configuration.StandardSequences.Reconstruction_cff")
 
 process.load("SimTracker.Configuration.SimTracker_cff")
@@ -264,33 +246,6 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(nevents)
 )
 
-# PID of gun particle
-#MOVED UPSTAIRS pid = 13;
-if os.getenv('pgun_pid'):
-   pid = int(os.getenv('pgun_pid'))
-print 'ID of gun particle: '+str(pid)
-
-# Pt and Eta range of gun particle
-if os.getenv('pgun_plow'):
-    plow = float(os.getenv('pgun_plow'))
-print 'Minimum Momentum: '+str(plow)
-if os.getenv('pgun_phigh'):
-    phigh= float(os.getenv('pgun_phigh'))
-print 'Maximum Momentum: '+str(phigh)
-if os.getenv('pgun_elow'):
-    elow = float(os.getenv('pgun_elow'))
-print 'Minimum Eta: '+str(elow)
-if os.getenv('pgun_ehigh'):
-    ehigh= float(os.getenv('pgun_ehigh'))
-print 'Maximum Eta: '+str(ehigh)
-
-process.load("FastSimulation/Configuration/FlatPtMuonGun_cfi")
-process.generator.PGunParameters.PartID = [pid, pid]
-process.generator.PGunParameters.MinPt = plow
-process.generator.PGunParameters.MaxPt = phigh
-process.generator.PGunParameters.MinEta = elow
-process.generator.PGunParameters.MaxEta = ehigh
-process.generator.AddAntiParticle = addanti
 
 #######################################################################################################################
 ## SLHC Track-trigger primitives
@@ -450,14 +405,57 @@ process.MessageLogger.destinations = cms.untracked.vstring("detailedInfo_FullSim
 process.Timing =  cms.Service("Timing")
 """
 
-#process.MyModule = cms.EDAnalyzer("TrackTriggerLocalFluctuations",
-#process.MyModule = cms.EDAnalyzer("TrackTriggerPrimitives",
-#                                  mcType = cms.untracked.uint32(1)
-#                                  )
+process.source = cms.Source("EmptySource")
+
+process.generator = cms.EDFilter("Pythia6GeneratorFilter",
+                                    pythiaPylistVerbosity = cms.untracked.int32(0),
+                                    filterEfficiency = cms.untracked.double(1.0),
+                                    pythiaHepMCVerbosity = cms.untracked.bool(False),
+                                    comEnergy = cms.double(14000.0),
+                                    maxEventsToPrint = cms.untracked.int32(0),
+                                    PythiaParameters = cms.PSet(
+           pythiaUESettings = cms.vstring('MSTJ(11)=3     ! Choice of the fragmentation function',
+                                                     'MSTJ(22)=2     ! Decay those unstable particles',
+                                                     'PARJ(71)=10 .  ! for which ctau  10 mm',
+                                                     'MSTP(2)=1      ! which order running alphaS',
+                                                     'MSTP(33)=0     ! no K factors in hard cross sections',
+                                                     'MSTP(51)=10042 ! structure function chosen (external PDF CTEQ6L1)',
+                                                     'MSTP(52)=2     ! work with LHAPDF',
+                                                     'MSTP(81)=1     ! multiple parton interactions 1 is Pythia default',
+                                                     'MSTP(82)=4     ! Defines the multi-parton model',
+                                                     'MSTU(21)=1     ! Check on possible errors during program execution',
+                                                     'PARP(82)=1.8387   ! pt cutoff for multiparton interactions',
+                                                     'PARP(89)=1960. ! sqrts for which PARP82 is set',
+                                                     'PARP(83)=0.5   ! Multiple interactions: matter distrbn parameter',
+                                                     'PARP(84)=0.4   ! Multiple interactions: matter distribution parameter',
+                                                     'PARP(90)=0.16  ! Multiple interactions: rescaling power',
+                                                     'PARP(67)=2.5    ! amount of initial-state radiation',
+                                                     'PARP(85)=1.0  ! gluon prod. mechanism in MI',
+                                                     'PARP(86)=1.0  ! gluon prod. mechanism in MI',
+                                                     'PARP(62)=1.25   ! ',
+                                                     'PARP(64)=0.2    ! ',
+                                                     'MSTP(91)=1      !',
+                                                     'PARP(91)=2.1   ! kt distribution',
+                                                     'PARP(93)=15.0  ! '),
+                  processParameters = cms.vstring('MSEL=0         ! User defined processes',
+                                                             'MSUB(11)=1     ! Min bias process',
+                                                             'MSUB(12)=1     ! Min bias process',
+                                                             'MSUB(13)=1     ! Min bias process',
+                                                             'MSUB(28)=1     ! Min bias process',
+                                                             'MSUB(53)=1     ! Min bias process',
+                                                             'MSUB(68)=1     ! Min bias process',
+                                                             'MSUB(92)=1     ! Min bias process, single diffractive',
+                                                             'MSUB(93)=1     ! Min bias process, single diffractive',
+                                                             'MSUB(94)=1     ! Min bias process, double diffractive',
+                                                             'MSUB(95)=1     ! Min bias process'),
+                  parameterSets = cms.vstring('pythiaUESettings',
+                                                         'processParameters')
+              )
+                                 )
 
 process.o1 = cms.OutputModule("PoolOutputModule",
 # definition of output file (full path)
-    fileName = cms.untracked.string('FullSim_withMTT10Tile2StripdiffGeom_Nev'+str(nevents)+'_'+'NU'+'_Pt'+str(plow)+'-'+str(phigh)+'GeV_Eta'+str(elow)+'-'+str(ehigh)+'_PU'+str(npu)+'.root'),
+    fileName = cms.untracked.string('FullSim_withMTT10Tile2Strip_MinBias_TuneZ2star_14TeV.root'),
     #cms.untracked.string('FullSim_N'+str(nevents)+'_PID'+str(pid)+'_PT'+str(plow)+'_'+str(phigh)+'_ETA'+str(elow)+'_'+str(ehigh)+'_PU'+str(npu)+'_thresh'+str(thresh)+'GeV_'+str(index)+'_PixelRay_50ns_NOOOT.root'),
     outputCommands = cms.untracked.vstring('drop *',
 ###########################################################################################
@@ -465,6 +463,7 @@ process.o1 = cms.OutputModule("PoolOutputModule",
 ###########################################################################################
                                            'keep *_L1TkBeams_*_*',
                                            'keep *_simMuonMTTDigis_*_*',
+                                           'keep *_*MTT*_*_*',
                                            'keep *_L1TkClustersFromPixelDigis_*_*',
                                            'keep *_L1TkStubsFromPixelDigis_*_*',
                                            'keep *_L1TkTrackletsFromPixelDigis_*_*',
@@ -507,6 +506,6 @@ process.p3 = cms.Path(process.siPixelClusters)
 process.p4 = cms.Path(process.L1TkBeams*process.L1TkClustersFromPixelDigis*process.L1TkStubsFromPixelDigis*process.L1TkTrackletsFromPixelDigis*process.L1TkTracksFromPixelDigis)
 process.p5 = cms.Path(process.analyze)
 #process.schedule = cms.Schedule(process.p0,process.p1,process.p2,process.p3,process.p4,process.p5,process.outpath)
-process.schedule = cms.Schedule(process.p0,process.p1,process.p2,process.p3,process.p4,process.outpath)
-
+#process.schedule = cms.Schedule(process.p0,process.p1,process.p2,process.p3,process.p4,process.outpath)
+process.schedule = cms.Schedule(process.p0,process.p1,process.outpath)
 

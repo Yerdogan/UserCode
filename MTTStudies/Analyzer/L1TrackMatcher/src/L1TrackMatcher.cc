@@ -13,7 +13,7 @@
 //
 // Original Author:  Paul Maanen
 //         Created:  Mon Aug 27 15:55:47 CEST 2012
-// $Id: L1TrackMatcher.cc,v 1.3 2012/09/04 08:49:04 pmaanen Exp $
+// $Id: L1TrackMatcher.cc,v 1.4 2012/10/25 12:54:28 pmaanen Exp $
 //
 //
 
@@ -165,7 +165,11 @@ class L1TrackMatcher : public edm::EDAnalyzer {
 //
 L1TrackMatcher::L1TrackMatcher(const edm::ParameterSet& iConfig)
 {
+<<<<<<< L1TrackMatcher.cc
+	l1TrackInputTag=iConfig.getParameter<edm::InputTag>("l1TrackSrc");
+=======
 	l1TrackInputTag=iConfig.getParameter<edm::InputTag>("l1TrackSource");
+>>>>>>> 1.4
 }
 
 

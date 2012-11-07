@@ -13,8 +13,8 @@
 		<Constant name="layerThick" value="20.0*mm"/>
 		<Constant name="dzLayer" value="2536.0*mm"/>
 		<!-- Number of Strips (per Layer) and their (full) dimensions ("C" stands for "Central Wheel"): -->
-		<Constant name="NumStrip" value="10"/>
-		<Constant name="NumStripC" value="10"/>
+		<Constant name="NumStrip" value="2"/>
+		<Constant name="NumStripC" value="2"/>
 		<Constant name="dxStrip" value="[dxTiles]"/>
 		<Constant name="dxStripC" value="[dxTilesC]"/>
 		<Constant name="stripThick" value="[tilesThick]"/>

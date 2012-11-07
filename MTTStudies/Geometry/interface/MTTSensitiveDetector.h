@@ -14,7 +14,7 @@
 #include "SimG4Core/Notification/interface/G4TrackToParticleID.h"
 #include "SimG4Core/Physics/interface/G4ProcessTypeEnumerator.h"
 #include "SimG4CMS/Muon/interface/MuonG4Numbering.h"
-
+#include "DataFormats/GeometryVector/interface/GlobalPoint.h"
 #include "G4Step.hh"
 #include "G4StepPoint.hh"
 #include "G4Track.hh"
@@ -79,7 +79,8 @@ private:
   unsigned int lastTrack;
   int eventno;
   std::string pname;
-
+  Local3DPoint toOrcaUnits(Local3DPoint);
+  Global3DPoint toOrcaUnits(Global3DPoint);
  // MuonSubDetector* detector;
   MTTNumberingScheme* numbering;
   MuonG4Numbering* g4numbering;
