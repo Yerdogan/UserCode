@@ -87,8 +87,10 @@ private:
 
 	virtual void beginRun(edm::Run const&, edm::EventSetup const&);
 	virtual void endRun(edm::Run const&, edm::EventSetup const&);
-	virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
-	virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
+	virtual void beginLuminosityBlock(edm::LuminosityBlock const&,
+			edm::EventSetup const&);
+	virtual void endLuminosityBlock(edm::LuminosityBlock const&,
+			edm::EventSetup const&);
 
 	// ----------member data ---------------------------
 
@@ -112,16 +114,18 @@ private:
 	TrackDetectorAssociator theTrackDetectorAssociator;
 	TrackAssociatorParameters trackAssociatorParameters;
 
-	MuonHOAcceptance theMuonHOAcceptance;
+	MuonHOAcceptance* theMuonHOAcceptance;
 };
 
 //
 // constants, enums and typedefs
 //
 
-typedef std::map<uint32_t, edm::SortedCollection<HORecHit, edm::StrictWeakOrdering<HORecHit>>>HitMap;
+typedef std::map<uint32_t, edm::SortedCollection<HORecHit,
+		edm::StrictWeakOrdering<HORecHit>>>HitMap;
 //typedef edm::SortedCollection<HORecHit> HOHitCollection;
-typedef edm::SortedCollection<HORecHit, edm::StrictWeakOrdering<HORecHit>> HOHitCollection;
+typedef edm::SortedCollection<HORecHit, edm::StrictWeakOrdering<HORecHit>>
+		HOHitCollection;
 
 typedef math::XYZTLorentzVector LorentzVector;
 typedef math::XYZVector Vector;
@@ -158,29 +162,52 @@ HOEfficiencyAnalyzer::HOEfficiencyAnalyzer(const edm::ParameterSet& iConfig) :
 	//	histos_["outer_match"] = theFileService->make<TH1F> ("outer_match", "outer_match", 2, -0.5, 1.5);
 	//	histos_["global_match"] = theFileService->make<TH1F> ("global_match", "global_match", 2, -0.5, 1.5);
 
-	histos_["eta_phi_match"] = theFileService->make<TH1F> ("eta_phi_matchedhits", "eta_phi_matchedhits", 2, -0.5, 1.5);
-	histos_["eta_phi_multimatch"] = theFileService->make<TH1F> ("eta_phi_multimatchedhits", "eta_phi_multimatchedhits",
-			2, -0.5, 1.5);
+	histos_["match"] = theFileService->make<TH1F> ("match", "match", 2, -0.5,
+			1.5);
 
-	histos_["muons_freq"] = theFileService->make<TH1F> ("muons_freq", "muons_freq", 30, -0.5, 29.5);
-	histos_["hit_freq"] = theFileService->make<TH1F> ("hit_freq", "hit_freq", 300, 0, 300);
+	histos_["eta_phi_match_sipm"] = theFileService->make<TH1F> (
+			"eta_phi_match_sipm", "eta_phi_match_sipm", 2, -0.5, 1.5);
+	histos_["eta_phi_match_hpd"] = theFileService->make<TH1F> (
+			"eta_phi_match_hpd", "eta_phi_match_hpd", 2, -0.5, 1.5);
+	histos_["eta_phi_multimatch_sipm"] = theFileService->make<TH1F> (
+			"eta_phi_multimatch_sipm", "eta_phi_multimatch_sipm", 2, -0.5, 1.5);
+	histos_["eta_phi_multimatch_hpd"] = theFileService->make<TH1F> (
+			"eta_phi_multimatch_hpd", "eta_phi_multimatch_hpd", 2, -0.5, 1.5);
 
-	histos_["muons_pt"] = theFileService->make<TH1F> ("muons_pt", "muons_pt", 100, 0, 200.);
-	histos_["muons_phi"] = theFileService->make<TH1F> ("muons_phi", "muons_phi", 80, -4., 4.);
-	histos_["muons_eta"] = theFileService->make<TH1F> ("muons_eta", "muons_eta", 200, -2.0, 2.0);
+	histos_["eta_phi_nomatch_sipm"] = theFileService->make<TH1F> (
+			"eta_phi_nomatch_sipm", "eta_phi_nomatch_sipm", 2, -0.5, 1.5);
+	histos_["eta_phi_nomatch_hpd"] = theFileService->make<TH1F> (
+			"eta_phi_nomatch_hpd", "eta_phi_nomatch_hpd", 2, -0.5, 1.5);
 
-	histos_["s1vec_phi"] = theFileService->make<TH1F> ("s1vec_phi", "s1vec_phi", 80, -4., 4.);
-	histos_["s1vec_eta"] = theFileService->make<TH1F> ("s1vec_eta", "s1vec_eta", 28, -1.4, 1.4);
+	histos_["muons_freq"] = theFileService->make<TH1F> ("muons_freq",
+			"muons_freq", 30, -0.5, 29.5);
+	histos_["hit_freq"] = theFileService->make<TH1F> ("hit_freq", "hit_freq",
+			300, 0, 300);
+
+	histos_["muons_pt"] = theFileService->make<TH1F> ("muons_pt", "muons_pt",
+			100, 0, 200.);
+	histos_["muons_phi"] = theFileService->make<TH1F> ("muons_phi",
+			"muons_phi", 80, -4., 4.);
+	histos_["muons_eta"] = theFileService->make<TH1F> ("muons_eta",
+			"muons_eta", 200, -2.0, 2.0);
+
+	histos_["s1vec_phi"] = theFileService->make<TH1F> ("s1vec_phi",
+			"s1vec_phi", 80, -4., 4.);
+	histos_["s1vec_eta"] = theFileService->make<TH1F> ("s1vec_eta",
+			"s1vec_eta", 28, -1.4, 1.4);
 	//histos_["hit_energy"] = theFileService->make<TH1F> ("hpdHit_energy", "hpdHit_energy", 100, 0., 5.);
 
 
-	histos_["dR"] = theFileService->make<TH1F> ("deltaR", "deltaR", 1000, 0., 10.);
+	histos_["dR"] = theFileService->make<TH1F> ("deltaR", "deltaR", 1000, 0.,
+			10.);
 	//	histos_["control1"] = theFileService->make<TH1F> ("control1", "control1", 100, 0., 100.);
 	//	histos_["control2"] = theFileService->make<TH1F> ("control2", "control2", 100, 0., 100.);
-	histos_["control3"] = theFileService->make<TH1F> ("control3", "control3", 100, 0., 100.);
+	histos_["control3"] = theFileService->make<TH1F> ("control3", "control3",
+			100, 0., 100.);
 
 	//	histos_["dist2"] = theFileService->make<TH1F> ("dist2", "dist2", 100, 0., 500.);
-	histos_["dist3"] = theFileService->make<TH1F> ("dist3", "dist3", 100, 0., 1000.);
+	histos_["dist3"] = theFileService->make<TH1F> ("dist3", "dist3", 100, 0.,
+			1000.);
 
 }
 
@@ -191,18 +218,23 @@ HOEfficiencyAnalyzer::~HOEfficiencyAnalyzer() {
 }
 
 // ------------ method called for each event  ------------
-void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
+void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent,
+		const edm::EventSetup& iSetup) {
 
 	using namespace edm;
 
 	Handle<HOHitCollection> hohits;
-	Handle<std::vector<reco::Muon>> muons;
+	Handle < std::vector < reco::Muon >> muons;
 
 	iEvent.getByLabel("horeco", hohits);
 	iEvent.getByLabel("MuonSelector", muons);
 
-	ESHandle<CaloGeometry> caloGeom;
-	ESHandle<TransientTrackBuilder> theB;
+	if (!hohits.isValid()) {
+		return;
+	}
+
+	ESHandle < CaloGeometry > caloGeom;
+	ESHandle < TransientTrackBuilder > theB;
 
 	iSetup.get<TransientTrackRecord> ().get("TransientTrackBuilder", theB);
 	iSetup.get<CaloGeometryRecord> ().get(caloGeom);
@@ -213,14 +245,15 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	histos_["hit_freq"]->Fill(hohits->size());
 
-	theMuonHOAcceptance.initIds(iSetup);
+	if (!MuonHOAcceptance::Inited())
+		MuonHOAcceptance::initIds(iSetup);
 
 	//-------------------------------Vertex information------------------------------------------------------
 	//-------------------------------------------------------------------------------------------------------
 	reco::Vertex::Point posVtx;
 	reco::Vertex::Error errVtx;
 
-	edm::Handle<reco::VertexCollection> recVtxs;
+	edm::Handle < reco::VertexCollection > recVtxs;
 	iEvent.getByLabel(primvertexLabel_, recVtxs);
 
 	unsigned int theIndexOfThePrimaryVertex = 999.;
@@ -236,8 +269,9 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
 		posVtx = ((*recVtxs)[theIndexOfThePrimaryVertex]).position();
 		errVtx = ((*recVtxs)[theIndexOfThePrimaryVertex]).error();
 	} else {
-		LogInfo("RecoMuonValidator") << "reco::PrimaryVertex not found, use BeamSpot position instead\n";
-		edm::Handle<reco::BeamSpot> recoBeamSpotHandle;
+		LogInfo("RecoMuonValidator")
+				<< "reco::PrimaryVertex not found, use BeamSpot position instead\n";
+		edm::Handle < reco::BeamSpot > recoBeamSpotHandle;
 		iEvent.getByLabel(beamspotLabel_, recoBeamSpotHandle);
 		reco::BeamSpot bs = *recoBeamSpotHandle;
 		posVtx = bs.position();
@@ -248,16 +282,35 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
 
 	const reco::Vertex thePrimaryVertex(posVtx, errVtx);
 
-	const GlobalPoint vertex(thePrimaryVertex.x(), thePrimaryVertex.y(), thePrimaryVertex.z());
+	const GlobalPoint vertex(thePrimaryVertex.x(), thePrimaryVertex.y(),
+			thePrimaryVertex.z());
 
 	//-------------------------------------------------------------------------------------------------------
 
-	if (muons->size() > 0) {
-		for (std::vector<reco::Muon>::const_iterator muon_iter = muons->begin(); muon_iter != muons->end(); ++muon_iter) {
+	if (muons->size() > 0) { // go on if at least one muon there
+		for (std::vector<reco::Muon>::const_iterator muon_iter = muons->begin(); muon_iter
+				!= muons->end(); ++muon_iter) {
 
 			bool isTightMu = muon::isTightMuon(*muon_iter, thePrimaryVertex);
 
-			if (!isTightMu) continue;
+			if (!isTightMu) //analyze only tight muons
+				continue;
+
+			//bool available = 0;
+			//reco::TrackRef muon_global_ref;
+
+			//if (muon_iter->isGlobalMuon()) {
+			//	muon_global_ref = muon_iter->globalTrack();
+			//	if (muon_global_ref.isAvailable())
+			//		available = 1;
+			//}
+
+			//if (available == 1) {
+			//	const reco::Track* muon_global_track = muon_global_ref.get();
+			//	//TrackDetMatchInfo info = theTrackDetectorAssociator.associate(iEvent, iSetup,
+			//	//		theTrackDetectorAssociator.getFreeTrajectoryState(iSetup, *muon_global_track),
+			//	//		trackAssociatorParameters);
+			//}
 
 			//if(available == 1){
 			//	reco::TransientTrack tr_muonglobaltrack = (*theB).build((muon_global_ref));
@@ -284,46 +337,33 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
 			double muon_eta = muon_iter->eta();
 			double muon_pt = muon_iter->pt();
 
-			//bool inGeomAcceptance = theMuonHOAcceptance.inGeomAccept(muon_eta, muon_phi, 0., 0.);
-			//bool inNotDead = theMuonHOAcceptance.inNotDeadGeom(muon_eta, muon_phi, 0., 0.);
-
-			//if(!inGeomAcceptance) continue;
-			//if(!inNotDead) continue;
-
-			bool available = 0;
-			reco::TrackRef muon_global_ref;
-
-			if (muon_iter->isGlobalMuon()) {
-				muon_global_ref = muon_iter->globalTrack();
-				if (muon_global_ref.isAvailable())
-					available = 1;
-			}
-
-			if (available == 1) {
-				const reco::Track* muon_global_track = muon_global_ref.get();
-				//TrackDetMatchInfo info = theTrackDetectorAssociator.associate(iEvent, iSetup,
-				//		theTrackDetectorAssociator.getFreeTrajectoryState(iSetup, *muon_global_track),
-				//		trackAssociatorParameters);
-
-
-			}
-
 			histos_["muons_pt"]->Fill(muon_pt);
 			histos_["muons_phi"]->Fill(muon_phi);
 			histos_["muons_eta"]->Fill(muon_eta);
 
-			int matchedhits1 = 0;
-			//int matchedhits2 = 0;
+			bool inGeomAcceptance = theMuonHOAcceptance->inGeomAccept(muon_eta,
+					muon_phi, 0., 0.);
+			bool inNotDead = theMuonHOAcceptance->inNotDeadGeom(muon_eta,
+					muon_phi, 0., 0.);
+			bool inSiPMGeom = theMuonHOAcceptance->inSiPMGeom(muon_eta,
+					muon_phi, 0., 0.);
 
+			if (!inGeomAcceptance) // analyze only muons in geom.accept of HO
+				continue;
+			if (!inNotDead) // analyze only muons in non dead cells of HO
+				continue;
 
-			for (HOHitCollection::const_iterator iHit = hohits->begin(); iHit != hohits->end(); ++iHit) {
+			int isMatched = 0;
+
+			for (HOHitCollection::const_iterator iHit = hohits->begin(); iHit
+					!= hohits->end(); ++iHit) {
 
 				hitDetId = iHit->id();
 
-				//bool isDeadChannel = theMuonHOAcceptance.isChannelDead(hitDetId);
-				//bool isSiPMChannel = theMuonHOAcceptance.isChannelSiPM(hitDetId);
-
-				//if(isDeadChannel) continue;
+				bool isDeadChannel = theMuonHOAcceptance->isChannelDead(
+						hitDetId);
+				if (isDeadChannel)
+					continue;
 
 				//int ieta = hitDetId.ieta();
 				//int iphi = hitDetId.iphi();
@@ -346,25 +386,52 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
 
 				double deltaEta1 = s1vec_eta - muon_eta;
 
-				if (fabs(deltaEta1) <= 0.0435 && fabs(deltaPhi1) <= 0.0435) {
-					matchedhits1++;
-				}
+				if (fabs(deltaEta1) <= 0.0435 && fabs(deltaPhi1) <= 0.0435)
+					isMatched++;
 			}
 
-			bool eta_phi_match = 0;
-			bool eta_phi_multimatch = 0;
+			bool match = 0;
+			bool eta_phi_match_sipm = 0;
+			bool eta_phi_multimatch_sipm = 0;
+			bool eta_phi_match_hpd = 0;
+			bool eta_phi_multimatch_hpd = 0;
+			bool eta_phi_nomatch_sipm = 0;
+			bool eta_phi_nomatch_hpd = 0;
 
-			if (matchedhits1 == 1) {
-				eta_phi_match = 1;
-			} else if (matchedhits1 > 1) {
-				eta_phi_multimatch = 1;
-			}
+			if (isMatched >= 1)
+				match = 1;
 
-			histos_["eta_phi_match"]->Fill(eta_phi_match);
-			histos_["eta_phi_multimatch"]->Fill(eta_phi_multimatch);
+			if (isMatched == 1 && inSiPMGeom)
+				eta_phi_match_sipm = 1;
+
+			if (isMatched == 1 && !inSiPMGeom)
+				eta_phi_match_hpd = 1;
+
+			if (isMatched > 1 && inSiPMGeom)
+				eta_phi_multimatch_sipm = 1;
+
+			if (isMatched > 1 && !inSiPMGeom)
+				eta_phi_multimatch_hpd = 1;
+
+			if (isMatched == 0 && inSiPMGeom)
+				eta_phi_nomatch_sipm = 1;
+
+			if (isMatched == 0 && !inSiPMGeom)
+				eta_phi_nomatch_hpd = 1;
+
+			histos_["match"]->Fill(match);
+			histos_["eta_phi_match_sipm"]->Fill(eta_phi_match_sipm);
+			histos_["eta_phi_match_hpd"]->Fill(eta_phi_match_hpd);
+			histos_["eta_phi_multimatch_sipm"]->Fill(eta_phi_multimatch_sipm);
+			histos_["eta_phi_multimatch_hpd"]->Fill(eta_phi_multimatch_hpd);
+			histos_["eta_phi_nomatch_sipm"]->Fill(eta_phi_nomatch_sipm);
+			histos_["eta_phi_nomatch_hpd"]->Fill(eta_phi_nomatch_hpd);
+
 		}
 		histos_["muons_freq"]->Fill(muons->size());
 	}
+
+	//delete theMuonHOAcceptance;
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
 	Handle<ExampleData> pIn;
@@ -394,15 +461,18 @@ void HOEfficiencyAnalyzer::endRun(edm::Run const&, edm::EventSetup const&) {
 }
 
 // ------------ method called when starting to processes a luminosity block  ------------
-void HOEfficiencyAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) {
+void HOEfficiencyAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const&,
+		edm::EventSetup const&) {
 }
 
 // ------------ method called when ending the processing of a luminosity block  ------------
-void HOEfficiencyAnalyzer::endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) {
+void HOEfficiencyAnalyzer::endLuminosityBlock(edm::LuminosityBlock const&,
+		edm::EventSetup const&) {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-void HOEfficiencyAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+void HOEfficiencyAnalyzer::fillDescriptions(
+		edm::ConfigurationDescriptions& descriptions) {
 	//The following says we do not know what parameters are allowed so do no validation
 	// Please change this to state exactly what you do use, even if it is no parameters
 	edm::ParameterSetDescription desc;
