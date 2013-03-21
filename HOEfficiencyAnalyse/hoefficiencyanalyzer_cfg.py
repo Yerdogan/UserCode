@@ -22,6 +22,7 @@ process.load('Configuration.Geometry.GeometryIdeal_cff')
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.load("Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff")
 process.load('Configuration/StandardSequences/Reconstruction_cff')
+from TrackingTools.TrackAssociator.default_cfi import TrackAssociatorParameterBlock
 
 process.GlobalTag.globaltag = 'FT_R_53_V6::All'
 
@@ -32,6 +33,7 @@ process.GlobalTag.globaltag = 'FT_R_53_V6::All'
 process.TFileService = cms.Service("TFileService",
     fileName=cms.string(
         'SingleMu_Run2012A_13Jul2012_v1_RECO.root'
+        #'/user/erdogan/output/SingleMu_Run2012A_13Jul2012_v1_RECO_1.root'
         #'/user/erdogan/output/SingleMu_Run2012A_13Jul2012_v1_RECO_2.root'
         #'/user/erdogan/output/SingleMu_Run2012A_13Jul2012_v1_RECO_3.root'
     )
@@ -72,13 +74,14 @@ process.primaryVertexFilter = cms.EDFilter("GoodVertexFilter",
 
 process.MuonSelector = cms.EDFilter("MuonSelector",
                                      src=cms.InputTag("muons"),
-                                     cut=cms.string("isGlobalMuon && eta < 1.32 && eta > -1.32 && pt > 50")
+                                     cut=cms.string("isGlobalMuon && eta < 1.32 && eta > -1.32 && pt >= 10")
                                      )
 
 process.demo = cms.EDAnalyzer('HOEfficiencyAnalyzer',
     selection=cms.string("isGlobalMuon"),
     beamSpot=cms.InputTag("offlineBeamSpot"),
-    primaryVertex=cms.InputTag('offlinePrimaryVertices')        
+    primaryVertex=cms.InputTag('offlinePrimaryVertices'),
+    TrackAssociatorParameters = TrackAssociatorParameterBlock.TrackAssociatorParameters
 )
 
 process.p = cms.Path(process.noscraping

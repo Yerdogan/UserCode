@@ -111,8 +111,8 @@ private:
 
 	StringCutObjectSelector<reco::Muon> selector_;
 
-	TrackDetectorAssociator theTrackDetectorAssociator;
-	TrackAssociatorParameters trackAssociatorParameters;
+	TrackAssociatorParameters assocParams;
+	TrackDetectorAssociator assoc;
 
 	MuonHOAcceptance* theMuonHOAcceptance;
 };
@@ -137,6 +137,9 @@ HcalDetId hitDetId;
 HcalDetId hpdHitDetId;
 HcalDetId sipmHitDetId;
 
+TrackAssociatorParameters assocParams;
+TrackDetectorAssociator assoc;
+
 //
 // static data member definitions
 //
@@ -146,43 +149,40 @@ HcalDetId sipmHitDetId;
 //
 HOEfficiencyAnalyzer::HOEfficiencyAnalyzer(const edm::ParameterSet& iConfig) :
 	selector_(iConfig.getParameter<std::string> ("selection"))
-
 {
 
 	//now do what ever initialization is needed
 
+	assoc.useDefaultPropagator();
+	
 	beamspotLabel_ = iConfig.getParameter<edm::InputTag> ("beamSpot");
 	primvertexLabel_ = iConfig.getParameter<edm::InputTag> ("primaryVertex");
+	assocParams = iConfig.getParameter<edm::ParameterSet>("TrackAssociatorParameters");
 
-	//edm::ParameterSet parameters = iConfig.getParameter<edm::ParameterSet> ("TrackAssociatorParameters");
-	//trackAssociatorParameters.loadParameters(parameters);
-	//theTrackDetectorAssociator.useDefaultPropagator();
-
-	//	histos_["inner_match"] = theFileService->make<TH1F> ("inner_match", "inner_match", 2, -0.5, 1.5);
-	//	histos_["outer_match"] = theFileService->make<TH1F> ("outer_match", "outer_match", 2, -0.5, 1.5);
-	//	histos_["global_match"] = theFileService->make<TH1F> ("global_match", "global_match", 2, -0.5, 1.5);
-
-	histos_["match"] = theFileService->make<TH1F> ("match", "match", 2, -0.5,
+	histos_["crossedIdMatch_hpd"] = theFileService->make<TH1F> ("crossedIdMatch_hpd", "crossedIdMatch_hpd", 2, -0.5,
+			1.5);
+	histos_["crossedIdMatch_sipm"] = theFileService->make<TH1F> ("crossedIdMatch_sipm", "crossedIdMatch_sipm", 2, -0.5,
+			1.5);
+	        
+	histos_["countsipmmuons"] = theFileService->make<TH1F> ("countsipmmuons",
+			"countsipmmuons", 30, -0.5, 29.5);
+	histos_["counthpdmuons"] = theFileService->make<TH1F> ("counthpdmuons",
+			"counthpdmuons", 30, -0.5, 29.5);
+	
+	histos_["maxDepoMatch_sipm"] = theFileService->make<TH1F> ("maxDepoMatch_sipm", "maxDepoMatch_sipm", 2, -0.5,
+			1.5);
+	histos_["maxDepoMatch_hpd"] = theFileService->make<TH1F> ("maxDepoMatch_hpd", "maxDepoMatch_hpd", 2, -0.5,
 			1.5);
 
-	histos_["eta_phi_match_sipm"] = theFileService->make<TH1F> (
-			"eta_phi_match_sipm", "eta_phi_match_sipm", 2, -0.5, 1.5);
-	histos_["eta_phi_match_hpd"] = theFileService->make<TH1F> (
-			"eta_phi_match_hpd", "eta_phi_match_hpd", 2, -0.5, 1.5);
-	histos_["eta_phi_multimatch_sipm"] = theFileService->make<TH1F> (
-			"eta_phi_multimatch_sipm", "eta_phi_multimatch_sipm", 2, -0.5, 1.5);
-	histos_["eta_phi_multimatch_hpd"] = theFileService->make<TH1F> (
-			"eta_phi_multimatch_hpd", "eta_phi_multimatch_hpd", 2, -0.5, 1.5);
-
-	histos_["eta_phi_nomatch_sipm"] = theFileService->make<TH1F> (
-			"eta_phi_nomatch_sipm", "eta_phi_nomatch_sipm", 2, -0.5, 1.5);
-	histos_["eta_phi_nomatch_hpd"] = theFileService->make<TH1F> (
-			"eta_phi_nomatch_hpd", "eta_phi_nomatch_hpd", 2, -0.5, 1.5);
-
 	histos_["muons_freq"] = theFileService->make<TH1F> ("muons_freq",
-			"muons_freq", 30, -0.5, 29.5);
+			"muons_freq", 5, -0.5, 5.5);
 	histos_["hit_freq"] = theFileService->make<TH1F> ("hit_freq", "hit_freq",
 			300, 0, 300);
+	histos_["mu_crossedRecHitSize"] = theFileService->make<TH1F> ("mu_crossedRecHitSize",
+			"mu_crossedRecHitSize", 5, -0.5, 4.5);
+	
+	histos_["crossedHOIdSize"] = theFileService->make<TH1F> ("crossedHOIdSize",
+			"crossedHOIdSize", 5, -0.5, 4.5);
 
 	histos_["muons_pt"] = theFileService->make<TH1F> ("muons_pt", "muons_pt",
 			100, 0, 200.);
@@ -190,6 +190,10 @@ HOEfficiencyAnalyzer::HOEfficiencyAnalyzer(const edm::ParameterSet& iConfig) :
 			"muons_phi", 80, -4., 4.);
 	histos_["muons_eta"] = theFileService->make<TH1F> ("muons_eta",
 			"muons_eta", 200, -2.0, 2.0);
+	
+	histos_["muon_eta_2crossed"] = theFileService->make<TH1F> ("muon_eta_2crossed", "muon_eta_2crossed", 200, -2.0, 2.0);
+	histos_["muon_eta_1crossed"] = theFileService->make<TH1F> ("muon_eta_1crossed", "muon_eta_1crossed", 200, -2.0, 2.0);
+	histos_["muon_eta_0crossed"] = theFileService->make<TH1F> ("muon_eta_0crossed", "muon_eta_0crossed", 200, -2.0, 2.0);
 
 	histos_["s1vec_phi"] = theFileService->make<TH1F> ("s1vec_phi",
 			"s1vec_phi", 80, -4., 4.);
@@ -197,18 +201,8 @@ HOEfficiencyAnalyzer::HOEfficiencyAnalyzer(const edm::ParameterSet& iConfig) :
 			"s1vec_eta", 28, -1.4, 1.4);
 	//histos_["hit_energy"] = theFileService->make<TH1F> ("hpdHit_energy", "hpdHit_energy", 100, 0., 5.);
 
-
-	histos_["dR"] = theFileService->make<TH1F> ("deltaR", "deltaR", 1000, 0.,
-			10.);
-	//	histos_["control1"] = theFileService->make<TH1F> ("control1", "control1", 100, 0., 100.);
-	//	histos_["control2"] = theFileService->make<TH1F> ("control2", "control2", 100, 0., 100.);
-	histos_["control3"] = theFileService->make<TH1F> ("control3", "control3",
-			100, 0., 100.);
-
-	//	histos_["dist2"] = theFileService->make<TH1F> ("dist2", "dist2", 100, 0., 500.);
-	histos_["dist3"] = theFileService->make<TH1F> ("dist3", "dist3", 100, 0.,
-			1000.);
-
+	histos_["muonHOCrossedEnergy"] = theFileService->make<TH1F> ("muonHOCrossedEnergy", "muonHOCrossedEnergy", 100, 0., 10.);
+	histos_["muonHOnXnEnergy"] = theFileService->make<TH1F> ("muonHOnXnEnergy", "muonHOnXnEnergy", 100, 0., 10.);
 }
 
 HOEfficiencyAnalyzer::~HOEfficiencyAnalyzer() {
@@ -234,16 +228,11 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent,
 	}
 
 	ESHandle < CaloGeometry > caloGeom;
-	ESHandle < TransientTrackBuilder > theB;
-
-	iSetup.get<TransientTrackRecord> ().get("TransientTrackBuilder", theB);
 	iSetup.get<CaloGeometryRecord> ().get(caloGeom);
 
 	theGeometry = caloGeom.product();
 
 	HitMap theHitMap;
-
-	histos_["hit_freq"]->Fill(hohits->size());
 
 	if (!MuonHOAcceptance::Inited())
 		MuonHOAcceptance::initIds(iSetup);
@@ -287,7 +276,12 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent,
 
 	//-------------------------------------------------------------------------------------------------------
 
+	TrackDetMatchInfo * muMatch = 0;
+	
 	if (muons->size() > 0) { // go on if at least one muon there
+		
+		histos_["hit_freq"]->Fill(hohits->size());
+		
 		for (std::vector<reco::Muon>::const_iterator muon_iter = muons->begin(); muon_iter
 				!= muons->end(); ++muon_iter) {
 
@@ -295,143 +289,144 @@ void HOEfficiencyAnalyzer::analyze(const edm::Event& iEvent,
 
 			if (!isTightMu) //analyze only tight muons
 				continue;
+			
+			if (!muon_iter->isTrackerMuon()) continue;
+			
+			if (! muon_iter->track().isNull() ) {
+				
+				reco::Track const * track = muon_iter->track().get();
+				muMatch = new TrackDetMatchInfo(assoc.associate(iEvent,iSetup,*track,assocParams));
+				
+				double hophi = muMatch->trkGlobPosAtHO.Phi();
+				double hoeta = muMatch->trkGlobPosAtHO.Eta();
+				
+				
+				
+				// analyze only muons in geom.accept of HO
+				if (!theMuonHOAcceptance->inGeomAccept(hophi, hoeta, 0., 0.)) continue;
+				// analyze only muons in non dead cells of HO
+				if (!theMuonHOAcceptance->inNotDeadGeom(hophi, hoeta, 0., 0.)) continue;
+				
+				// energy informations of muons in HO system
+				double muonHOE = muMatch->crossedEnergy(TrackDetMatchInfo::HORecHits); //same as muMatch->hoCrossedEnergy()
+				double muonHOES9 = muMatch->nXnEnergy(TrackDetMatchInfo::HORecHits,1);
+				DetId hoMaxId = muMatch->findMaxDeposition(TrackDetMatchInfo::HORecHits,1);
+				int mu_crossedRecHitSize = muMatch->crossedHORecHits.size();
+				int n_crossedHOIds = muMatch->crossedHOIds.size();
 
-			//bool available = 0;
-			//reco::TrackRef muon_global_ref;
-
-			//if (muon_iter->isGlobalMuon()) {
-			//	muon_global_ref = muon_iter->globalTrack();
-			//	if (muon_global_ref.isAvailable())
-			//		available = 1;
-			//}
-
-			//if (available == 1) {
-			//	const reco::Track* muon_global_track = muon_global_ref.get();
-			//	//TrackDetMatchInfo info = theTrackDetectorAssociator.associate(iEvent, iSetup,
-			//	//		theTrackDetectorAssociator.getFreeTrajectoryState(iSetup, *muon_global_track),
-			//	//		trackAssociatorParameters);
-			//}
-
-			//if(available == 1){
-			//	reco::TransientTrack tr_muonglobaltrack = (*theB).build((muon_global_ref));
-			//
-			//	theStateClosestToPoint3 = tr_muonglobaltrack.trajectoryStateClosestToPoint(s1);
-			//
-			//	if(theStateClosestToPoint3.isValid()){
-			//		GlobalPoint closestPoint3 = theStateClosestToPoint3.position();
-			//		GlobalPoint refPoint3 = theStateClosestToPoint3.referencePoint();
-			//
-			//		GlobalVector closest3Vec(closestPoint3.x(), closestPoint3.y(), closestPoint3.z());
-			//		GlobalVector ref3Vec(refPoint3.x(), refPoint3.y(), refPoint3.z());
-			//
-			//		GlobalVector controldist3 = s1vec - ref3Vec;
-			//		histos_["control3"]->Fill(controldist3.mag());
-			//
-			//		GlobalVector dist3 = s1vec - closest3Vec;
-			//		histos_["dist3"]->Fill(dist3.mag());
-			//	}
-			//}
-
-			// kinematic parameters from p4
-			double muon_phi = muon_iter->phi();
-			double muon_eta = muon_iter->eta();
-			double muon_pt = muon_iter->pt();
-
-			histos_["muons_pt"]->Fill(muon_pt);
-			histos_["muons_phi"]->Fill(muon_phi);
-			histos_["muons_eta"]->Fill(muon_eta);
-
-			bool inGeomAcceptance = theMuonHOAcceptance->inGeomAccept(muon_eta,
-					muon_phi, 0., 0.);
-			bool inNotDead = theMuonHOAcceptance->inNotDeadGeom(muon_eta,
-					muon_phi, 0., 0.);
-			bool inSiPMGeom = theMuonHOAcceptance->inSiPMGeom(muon_eta,
-					muon_phi, 0., 0.);
-
-			if (!inGeomAcceptance) // analyze only muons in geom.accept of HO
-				continue;
-			if (!inNotDead) // analyze only muons in non dead cells of HO
-				continue;
-
-			int isMatched = 0;
-
-			for (HOHitCollection::const_iterator iHit = hohits->begin(); iHit
-					!= hohits->end(); ++iHit) {
-
-				hitDetId = iHit->id();
-
-				bool isDeadChannel = theMuonHOAcceptance->isChannelDead(
-						hitDetId);
-				if (isDeadChannel)
-					continue;
-
-				//int ieta = hitDetId.ieta();
-				//int iphi = hitDetId.iphi();
-
-				GlobalPoint s1 = theGeometry->getPosition(hitDetId);
-				GlobalVector s1vec(s1.x(), s1.y(), s1.z());
-
-				double s1vec_phi = s1vec.phi();
-				double s1vec_eta = s1vec.eta();
-
-				histos_["s1vec_phi"]->Fill(s1vec_phi);
-				histos_["s1vec_eta"]->Fill(s1vec_eta);
-
-				double deltaPhi1 = s1vec_phi - muon_phi;
-
-				if (deltaPhi1 >= 3.1412) {
-					deltaPhi1 -= 2 * 3.1412;
-				} else if (deltaPhi1 < -3.1412)
-					deltaPhi1 += 2 * 3.1412;
-
-				double deltaEta1 = s1vec_eta - muon_eta;
-
-				if (fabs(deltaEta1) <= 0.0435 && fabs(deltaPhi1) <= 0.0435)
-					isMatched++;
+				histos_["mu_crossedRecHitSize"]->Fill(mu_crossedRecHitSize);
+				histos_["crossedHOIdSize"]->Fill(n_crossedHOIds);
+				histos_["muonHOCrossedEnergy"]->Fill(muonHOE);
+				histos_["muonHOnXnEnergy"]->Fill(muonHOES9);
+				
+				// kinematic parameters from p4
+				double muon_phi = muon_iter->phi();
+				double muon_eta = muon_iter->eta();
+				double muon_pt = muon_iter->pt();
+	            
+				histos_["muons_pt"]->Fill(muon_pt);
+				histos_["muons_phi"]->Fill(muon_phi);
+				histos_["muons_eta"]->Fill(muon_eta);
+				
+				if (n_crossedHOIds > 1){
+					histos_["muon_eta_2crossed"]->Fill(muon_eta);
+				} else if (n_crossedHOIds == 1) {
+					histos_["muon_eta_1crossed"]->Fill(muon_eta);
+				} else {
+					histos_["muon_eta_0crossed"]->Fill(muon_eta);
+				}
+				
+				int countsipmmuons = 0;
+				int counthpdmuons = 0;
+				
+				bool inSiPMGeom = theMuonHOAcceptance->inSiPMGeom(hophi,hoeta,0.,0.);
+				
+				if(inSiPMGeom){
+					countsipmmuons++;
+				} else counthpdmuons++;
+				
+				histos_["countsipmmuons"]->Fill(countsipmmuons);
+				histos_["counthpdmuons"]->Fill(counthpdmuons);
+				
+				int maxDepoMatch_sipm = 0;
+				int maxDepoMatch_hpd = 0;
+				int crossedIdMatch_sipm = 0;
+				bool matched1 = 0;
+				int crossedIdMatch_hpd = 0;
+				bool matched2 = 0;
+				
+				if(inSiPMGeom){
+					
+					for(std::vector<const HORecHit*>::const_iterator muhit = muMatch->crossedHORecHits.begin(); 	 
+						    muhit != muMatch->crossedHORecHits.end(); ++muhit) { 	 
+						  if ((*muhit)->id() == hoMaxId) {
+							  maxDepoMatch_sipm++;
+							  break;
+						  }
+					}
+					
+					histos_["maxDepoMatch_sipm"]->Fill(maxDepoMatch_sipm);
+					
+					for (std::vector<DetId>::const_iterator aid = muMatch->crossedHOIds.begin();
+							aid != muMatch->crossedHOIds.end(); ++aid) {
+						
+						if (matched1) break;
+						
+						HcalDetId mId(aid->rawId());
+						
+						if((!MuonHOAcceptance::isChannelDead(mId))){
+							for (HOHitCollection::const_iterator iHit = hohits->begin(); iHit
+							!= hohits->end(); ++iHit) {
+								hitDetId = iHit->id();
+								if(hitDetId == mId){
+									crossedIdMatch_sipm++;
+									matched1 = 1;
+									break;
+								}
+							}
+						}
+					}
+					histos_["crossedIdMatch_sipm"]->Fill(crossedIdMatch_sipm);
+					
+				} else {
+					
+					for(std::vector<const HORecHit*>::const_iterator muhit = muMatch->crossedHORecHits.begin(); 	 
+						    muhit != muMatch->crossedHORecHits.end(); ++muhit) { 	 
+						  if ((*muhit)->id() == hoMaxId) {
+							  maxDepoMatch_hpd++;
+							  break;
+						  }
+					}
+					
+					histos_["maxDepoMatch_hpd"]->Fill(maxDepoMatch_hpd);
+					
+					for (std::vector<DetId>::const_iterator aid = muMatch->crossedHOIds.begin();
+						     aid != muMatch->crossedHOIds.end(); ++aid) {
+						
+						if (matched2) break;
+						
+						HcalDetId mId(aid->rawId());
+						
+						if((!MuonHOAcceptance::isChannelDead(mId))){
+							for (HOHitCollection::const_iterator iHit = hohits->begin(); iHit
+							!= hohits->end(); ++iHit) {
+								hitDetId = iHit->id();
+								if(hitDetId == mId){
+									crossedIdMatch_hpd++;
+									matched2 = 1;
+									break;
+								}
+							}
+						}
+					}
+					histos_["crossedIdMatch_hpd"]->Fill(crossedIdMatch_hpd);					
+				}
 			}
-
-			bool match = 0;
-			bool eta_phi_match_sipm = 0;
-			bool eta_phi_multimatch_sipm = 0;
-			bool eta_phi_match_hpd = 0;
-			bool eta_phi_multimatch_hpd = 0;
-			bool eta_phi_nomatch_sipm = 0;
-			bool eta_phi_nomatch_hpd = 0;
-
-			if (isMatched >= 1)
-				match = 1;
-
-			if (isMatched == 1 && inSiPMGeom)
-				eta_phi_match_sipm = 1;
-
-			if (isMatched == 1 && !inSiPMGeom)
-				eta_phi_match_hpd = 1;
-
-			if (isMatched > 1 && inSiPMGeom)
-				eta_phi_multimatch_sipm = 1;
-
-			if (isMatched > 1 && !inSiPMGeom)
-				eta_phi_multimatch_hpd = 1;
-
-			if (isMatched == 0 && inSiPMGeom)
-				eta_phi_nomatch_sipm = 1;
-
-			if (isMatched == 0 && !inSiPMGeom)
-				eta_phi_nomatch_hpd = 1;
-
-			histos_["match"]->Fill(match);
-			histos_["eta_phi_match_sipm"]->Fill(eta_phi_match_sipm);
-			histos_["eta_phi_match_hpd"]->Fill(eta_phi_match_hpd);
-			histos_["eta_phi_multimatch_sipm"]->Fill(eta_phi_multimatch_sipm);
-			histos_["eta_phi_multimatch_hpd"]->Fill(eta_phi_multimatch_hpd);
-			histos_["eta_phi_nomatch_sipm"]->Fill(eta_phi_nomatch_sipm);
-			histos_["eta_phi_nomatch_hpd"]->Fill(eta_phi_nomatch_hpd);
-
+			
+			delete muMatch;
 		}
 		histos_["muons_freq"]->Fill(muons->size());
 	}
-
-	//delete theMuonHOAcceptance;
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
 	Handle<ExampleData> pIn;
